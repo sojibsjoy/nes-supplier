@@ -2,7 +2,9 @@ import 'package:dogventurehq/states/bindings/initial.dart';
 import 'package:dogventurehq/ui/screens/home/home.dart';
 import 'package:dogventurehq/ui/screens/login/login.dart';
 import 'package:dogventurehq/ui/screens/my_orders/my_orders.dart';
+import 'package:dogventurehq/ui/screens/order_details/order_details.dart';
 import 'package:dogventurehq/ui/screens/products/products.dart';
+import 'package:dogventurehq/ui/screens/profile/profile.dart';
 import 'package:dogventurehq/ui/screens/splash/splash.dart';
 import 'package:get/route_manager.dart';
 
@@ -28,6 +30,14 @@ class AllRoutes {
     GetPage(
       name: MyOrdersScreen.routeName,
       page: () => const MyOrdersScreen(),
+    ),
+    GetPage(
+      name: OrderDetails.routeName,
+      page: () => const OrderDetails(),
+    ),
+    GetPage(
+      name: ProfileScreen.routeName,
+      page: () => const ProfileScreen(),
     ),
   ];
 }

@@ -3,6 +3,7 @@ import 'package:dogventurehq/ui/screens/home/product_item.dart';
 import 'package:dogventurehq/ui/screens/home/search_bar.dart';
 import 'package:dogventurehq/ui/widgets/helper.dart';
 import 'package:dogventurehq/ui/widgets/my_products.dart';
+import 'package:dogventurehq/ui/widgets/product_list.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 
@@ -35,14 +36,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
             ),
             addH(10.h),
             // Product list
-            ListView.builder(
-              itemCount: 10,
-              primary: false,
-              shrinkWrap: true,
-              itemBuilder: (BuildContext context, int index) {
-                return const ProductItem();
-              },
-            ),
+            ProductList(),
           ],
         ),
       ),

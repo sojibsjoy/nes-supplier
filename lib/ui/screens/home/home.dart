@@ -1,14 +1,14 @@
 import 'package:dogventurehq/ui/designs/custom_appbar.dart';
 import 'package:dogventurehq/ui/designs/custom_btn.dart';
 import 'package:dogventurehq/ui/designs/custom_txt_btn.dart';
+import 'package:dogventurehq/ui/widgets/floating_btn.dart';
+import 'package:dogventurehq/ui/widgets/nav_bar.dart';
 import 'package:dogventurehq/ui/screens/home/home_con.dart';
-import 'package:dogventurehq/ui/screens/home/nav_icon.dart';
-import 'package:dogventurehq/ui/screens/home/product_item.dart';
 import 'package:dogventurehq/ui/screens/home/search_bar.dart';
-import 'package:dogventurehq/ui/screens/my_orders/my_orders.dart';
 import 'package:dogventurehq/ui/screens/products/products.dart';
 import 'package:dogventurehq/ui/widgets/helper.dart';
 import 'package:dogventurehq/ui/widgets/my_products.dart';
+import 'package:dogventurehq/ui/widgets/product_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -125,84 +125,13 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             addH(20.h),
             // Product list
-            ListView.builder(
-              itemCount: 10,
-              primary: false,
-              shrinkWrap: true,
-              itemBuilder: (BuildContext context, int index) {
-                return const ProductItem();
-              },
-            ),
+            ProductList(),
           ],
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: Container(
-        width: 60.w,
-        height: 60.h,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(
-            width: 3,
-            color: Colors.red.shade900,
-          ),
-          shape: BoxShape.circle,
-        ),
-        child: Center(
-          child: NavIcon(
-            onTapFn: () => Get.toNamed(
-              MyOrdersScreen.routeName,
-            ),
-            icon: 'order',
-            iconClr: Colors.black,
-            iconSize: 25.h,
-          ),
-        ),
-      ),
-      bottomNavigationBar: Container(
-        width: 388.w,
-        height: 60.h,
-        margin: EdgeInsets.only(
-          left: 10.w,
-          right: 10.w,
-          bottom: 10.w,
-        ),
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: Colors.red.shade900,
-          ),
-          borderRadius: BorderRadius.circular(20.r),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            NavIcon(
-              onTapFn: () {},
-              icon: 'home',
-              title: 'Home',
-            ),
-            Padding(
-              padding: EdgeInsets.only(
-                top: 25.h,
-                left: 50.w,
-                right: 50.w,
-              ),
-              child: Text(
-                'Orders',
-                style: TextStyle(
-                  color: Colors.red.shade900,
-                  fontSize: 12.sp,
-                ),
-              ),
-            ),
-            NavIcon(
-              onTapFn: () {},
-              icon: 'person',
-              title: 'Profile',
-            ),
-          ],
-        ),
-      ),
+      floatingActionButton: const FloatingBtn(),
+      bottomNavigationBar: const NavBar(),
     );
   }
 }

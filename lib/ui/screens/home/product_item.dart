@@ -3,7 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProductItem extends StatelessWidget {
-  const ProductItem({Key? key}) : super(key: key);
+  Widget? suffixWidget;
+  ProductItem({
+    Key? key,
+    this.suffixWidget,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +15,6 @@ class ProductItem extends StatelessWidget {
       width: 388.w,
       height: 95.h,
       margin: EdgeInsets.symmetric(
-        horizontal: 20.w,
         vertical: 10.h,
       ),
       padding: EdgeInsets.symmetric(horizontal: 15.w),
@@ -42,11 +45,23 @@ class ProductItem extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               // product name
-              Text(
-                'Saan Padi - Chocolate Flavour',
-                maxLines: 2,
-                style: TextStyle(
-                  fontSize: 12.sp,
+              SizedBox(
+                width: 265.w,
+                child: Row(
+                  children: [
+                    SizedBox(
+                      width: 180.w,
+                      child: Text(
+                        'Saan Padi - Chocolate Flavour',
+                        maxLines: 2,
+                        style: TextStyle(
+                          fontSize: 12.sp,
+                        ),
+                      ),
+                    ),
+                    if (suffixWidget != null) const Spacer(),
+                    if (suffixWidget != null) suffixWidget!,
+                  ],
                 ),
               ),
               // product weight

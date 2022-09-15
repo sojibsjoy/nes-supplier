@@ -39,7 +39,9 @@ dependencies:
   get_storage: ^2.0.3
   flutter_screenutil: ^5.5.3+2
   flutter_svg: ^1.1.5
+  flutter_switch: ^0.3.2
   country_pickers: ^2.0.0
+  rename: ^2.0.1
 
 dev_dependencies:
   flutter_test:
