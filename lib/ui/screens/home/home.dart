@@ -1,6 +1,7 @@
 import 'package:dogventurehq/ui/designs/custom_appbar.dart';
 import 'package:dogventurehq/ui/designs/custom_btn.dart';
 import 'package:dogventurehq/ui/designs/custom_txt_btn.dart';
+import 'package:dogventurehq/ui/screens/home/drawer.dart';
 import 'package:dogventurehq/ui/widgets/floating_btn.dart';
 import 'package:dogventurehq/ui/widgets/nav_bar.dart';
 import 'package:dogventurehq/ui/screens/home/home_con.dart';
@@ -22,13 +23,15 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final TextEditingController _searchCon = TextEditingController();
   bool _isDaily = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: customAppBar(
-        leadingFn: () => print('menu'),
+        leadingFn: () => _scaffoldKey.currentState!.openDrawer(),
         leadingIcon: 'assets/svgs/menu.svg',
         titleWidget: Image.asset(
           'assets/imgs/logo_full.png',
@@ -36,6 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
           fit: BoxFit.fitWidth,
         ),
       ),
+      drawer: HomeDrawer(),
       body: SingleChildScrollView(
         child: Column(
           children: [

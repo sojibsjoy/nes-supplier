@@ -1,3 +1,4 @@
+import 'package:dogventurehq/ui/designs/menu_item.dart';
 import 'package:dogventurehq/ui/screens/profile/summary_con.dart';
 import 'package:dogventurehq/ui/widgets/floating_btn.dart';
 import 'package:dogventurehq/ui/widgets/helper.dart';
@@ -66,12 +67,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           alignment: AlignmentDirectional.bottomEnd,
                           children: [
                             // user image
-                            Container(
-                              width: 115.w,
-                              height: 115.h,
-                              decoration: const BoxDecoration(
-                                color: Colors.grey,
-                                shape: BoxShape.circle,
+                            ClipOval(
+                              child: Image.asset(
+                                'assets/imgs/user.png',
+                                width: 115.w,
+                                height: 115.h,
+                                fit: BoxFit.cover,
                               ),
                             ),
                             // photo uploading btn
@@ -155,22 +156,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: Column(
                 children: [
                   // profile items
-                  _buildMenuItem(
+                  CustomMenuItem(
                     icon: 'person',
                     title: 'Name',
                     suffixTxt: 'Md. Sojib Sarker',
                   ),
-                  _buildMenuItem(
+                  CustomMenuItem(
                     icon: 'email',
                     title: 'Email',
                     suffixTxt: 'sojib.vu@gmail.com',
                   ),
-                  _buildMenuItem(
+                  CustomMenuItem(
                     icon: 'phone',
                     title: 'Mobile',
                     suffixTxt: '+880 1716 589947',
                   ),
-                  _buildMenuItem(
+                  CustomMenuItem(
                     icon: 'accepting_order',
                     title: 'Accepting Orders',
                     suffixWidget: FlutterSwitch(
@@ -185,7 +186,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ),
                   ),
-                  _buildMenuItem(
+                  CustomMenuItem(
                     icon: 'otp',
                     title: 'Enable OTP',
                     suffixWidget: FlutterSwitch(
@@ -200,7 +201,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ),
                   ),
-                  _buildMenuItem(
+                  CustomMenuItem(
                     icon: 'bell',
                     title: 'Receive Notifications via Email',
                     suffixWidget: FlutterSwitch(
@@ -215,7 +216,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ),
                   ),
-                  _buildMenuItem(
+                  CustomMenuItem(
                     icon: 'location',
                     title: 'Address',
                     suffixWidget: Icon(
@@ -251,81 +252,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: const FloatingBtn(),
       bottomNavigationBar: const NavBar(),
-    );
-  }
-
-  Widget _buildMenuItem({
-    VoidCallback? onTapFn,
-    required String icon,
-    required String title,
-    String? suffixTxt,
-    Widget? suffixWidget,
-    bool? noDividerFlag,
-  }) {
-    return Column(
-      children: [
-        InkWell(
-          onTap: onTapFn,
-          splashColor: Colors.transparent,
-          highlightColor: Colors.transparent,
-          child: Container(
-            margin: EdgeInsets.symmetric(horizontal: 20.w),
-            padding: EdgeInsets.only(
-              left: 8.w,
-              right: 8.w,
-              top: 8.h,
-            ),
-            child: Row(
-              children: [
-                Container(
-                  height: 30,
-                  width: 40,
-                  decoration: BoxDecoration(
-                    color: Colors.red.withOpacity(0.1),
-                    borderRadius: const BorderRadius.all(Radius.circular(6)),
-                  ),
-                  child: Center(
-                    child: SvgPicture.asset(
-                      'assets/svgs/$icon.svg',
-                      width: 15.h,
-                      color: Colors.red.shade900,
-                      fit: BoxFit.fitWidth,
-                    ),
-                  ),
-                ),
-                addW(10.w),
-                Text(
-                  title,
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w500),
-                ),
-                const Spacer(),
-                if (suffixTxt != null)
-                  Text(
-                    suffixTxt,
-                    style: TextStyle(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                if (suffixWidget != null) suffixWidget,
-                const SizedBox(
-                  width: 10,
-                ),
-              ],
-            ),
-          ),
-        ),
-        if (noDividerFlag == null)
-          Divider(
-            indent: 80.w,
-            endIndent: 40.w,
-            color: Colors.grey.withOpacity(0.3),
-            thickness: 1,
-          ),
-      ],
     );
   }
 }

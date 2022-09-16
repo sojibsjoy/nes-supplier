@@ -15,6 +15,8 @@ PreferredSizeWidget customAppBar({
       backgroundColor: Colors.white,
       leading: InkWell(
         onTap: leadingFn ?? () => Get.back(),
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
         child: _svgIcon(
           leadingIcon ?? 'assets/svgs/back.svg',
         ),
