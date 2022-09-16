@@ -19,7 +19,7 @@ class ProductItem extends StatelessWidget {
       ),
       padding: EdgeInsets.symmetric(horizontal: 15.w),
       decoration: BoxDecoration(
-        color: Colors.grey.shade200,
+        color: Colors.grey.shade100,
         borderRadius: BorderRadius.circular(15.r),
       ),
       child: Row(

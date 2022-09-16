@@ -1,6 +1,9 @@
 import 'package:dogventurehq/ui/designs/menu_item.dart';
 import 'package:dogventurehq/ui/screens/my_orders/my_orders.dart';
+import 'package:dogventurehq/ui/screens/notification/notification.dart';
+import 'package:dogventurehq/ui/screens/privacy_policy/privacy_policy.dart';
 import 'package:dogventurehq/ui/screens/profile/profile.dart';
+import 'package:dogventurehq/ui/screens/total_orders/total_orders.dart';
 import 'package:dogventurehq/ui/widgets/helper.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
@@ -12,8 +15,8 @@ class HomeDrawer extends StatelessWidget {
 
   final List<String> _menuIcons = [
     'home',
-    'orders',
-    'total_orders',
+    'order',
+    'total_order',
     'bell',
     'person',
     'privacy',
@@ -31,11 +34,11 @@ class HomeDrawer extends StatelessWidget {
   final List<VoidCallback> _menuOnTapFns = [
     // section 1
     () => Get.back(),
-    () => print('My Orders'),
-    () => print('Total Orders'),
-    () => print('Notifications'),
+    () => Get.toNamed(MyOrdersScreen.routeName),
+    () => Get.toNamed(TotalOrdersScreen.routeName),
+    () => Get.toNamed(NotificationScreen.routeName),
     () => Get.toNamed(ProfileScreen.routeName),
-    () => print('Privacy Policy'),
+    () => Get.toNamed(PrivacyPolicyScreen.routeName),
     () => print('Log out'),
     // () => AwesomeDialog(
     //       context: Get.context!,
@@ -172,44 +175,19 @@ class HomeDrawer extends StatelessWidget {
                 ),
                 Column(
                   children: [
-                    // menu items
-                    CustomMenuItem(
-                      onTapFn: () => Get.back(),
-                      icon: 'home',
-                      title: 'Home',
+                    ListView.builder(
+                      itemCount: 7,
+                      shrinkWrap: true,
+                      itemBuilder: (BuildContext context, int index) {
+                        return CustomMenuItem(
+                          onTapFn: _menuOnTapFns[index],
+                          icon: _menuIcons[index],
+                          title: _menuTitle[index],
+                          noDividerFlag: index == 6 ? true : null,
+                        );
+                      },
                     ),
-                    CustomMenuItem(
-                      onTapFn: () => Get.toNamed(
-                        MyOrdersScreen.routeName,
-                      ),
-                      icon: 'order',
-                      title: 'My Orders',
-                    ),
-                    CustomMenuItem(
-                      icon: 'total_order',
-                      title: 'Total Orders',
-                    ),
-                    CustomMenuItem(
-                      icon: 'bell',
-                      title: 'Notifications',
-                    ),
-                    CustomMenuItem(
-                      onTapFn: () => Get.toNamed(
-                        ProfileScreen.routeName,
-                      ),
-                      icon: 'person',
-                      title: 'My Profile',
-                    ),
-                    CustomMenuItem(
-                      icon: 'privacy',
-                      title: 'Privacy Policy',
-                    ),
-                    CustomMenuItem(
-                      icon: 'logout',
-                      title: 'Logout',
-                      noDividerFlag: true,
-                    ),
-                    addH(150.h),
+                    addH(100.h),
                     // email admin text
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,

@@ -1,4 +1,5 @@
 import 'package:dogventurehq/ui/designs/menu_item.dart';
+import 'package:dogventurehq/ui/screens/add_address/add_address.dart';
 import 'package:dogventurehq/ui/screens/profile/summary_con.dart';
 import 'package:dogventurehq/ui/widgets/floating_btn.dart';
 import 'package:dogventurehq/ui/widgets/helper.dart';
@@ -217,6 +218,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ),
                   CustomMenuItem(
+                    onTapFn: () => Get.toNamed(
+                      AddAddressScreen.routeName,
+                    ),
                     icon: 'location',
                     title: 'Address',
                     suffixWidget: Icon(

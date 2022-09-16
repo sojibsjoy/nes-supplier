@@ -1,3 +1,4 @@
+import 'package:dogventurehq/ui/screens/notification/notification.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -10,6 +11,7 @@ PreferredSizeWidget customAppBar({
   String? titleTxt,
   VoidCallback? suffixFn,
   String? suffixIcon,
+  bool? noSuffixIcon,
 }) =>
     AppBar(
       backgroundColor: Colors.white,
@@ -30,17 +32,22 @@ PreferredSizeWidget customAppBar({
           ),
       centerTitle: true,
       actions: [
-        Padding(
-          padding: EdgeInsets.only(right: 20.w),
-          child: InkWell(
-            onTap:
-                suffixFn, // add navigate to notification screen as null safety
-            child: _svgIcon(
-              suffixIcon ?? 'assets/svgs/bell.svg',
-              w: 20.w,
+        if (noSuffixIcon == null)
+          Padding(
+            padding: EdgeInsets.only(right: 20.w),
+            child: InkWell(
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              onTap: suffixFn ??
+                  () => Get.toNamed(
+                        NotificationScreen.routeName,
+                      ),
+              child: _svgIcon(
+                suffixIcon ?? 'assets/svgs/bell.svg',
+                w: 20.w,
+              ),
             ),
           ),
-        ),
       ],
     );
 
