@@ -22,6 +22,7 @@ class ProductList extends StatelessWidget {
           : EdgeInsets.symmetric(horizontal: 20.w),
       itemBuilder: (BuildContext context, int index) {
         return ProductItem(
+          index: index,
           suffixWidget: suffixWidget,
         );
       },

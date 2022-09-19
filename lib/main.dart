@@ -1,7 +1,5 @@
 import 'package:dogventurehq/states/bindings/initial.dart';
 import 'package:dogventurehq/states/data/routes.dart';
-import 'package:dogventurehq/ui/screens/home/home.dart';
-import 'package:dogventurehq/ui/screens/login/login.dart';
 import 'package:dogventurehq/ui/screens/splash/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
