@@ -1,3 +1,4 @@
+import 'package:dogventurehq/ui/designs/custom_appbar.dart';
 import 'package:flutter/material.dart';
 
 class PrivacyPolicyScreen extends StatelessWidget {
@@ -6,6 +7,11 @@ class PrivacyPolicyScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      appBar: customAppBar(
+        titleTxt: 'Privacy Policy',
+        noSuffixIcon: true,
+      ),
+    );
   }
 }

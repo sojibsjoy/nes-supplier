@@ -39,13 +39,13 @@ class CustomerInfo extends StatelessWidget {
             Text(
               'Invoice Number: ',
               style: TextStyle(
-                fontSize: 12.sp,
+                fontSize: 10.sp,
               ),
             ),
             Text(
               '#Sc124535',
               style: TextStyle(
-                fontSize: 12.sp,
+                fontSize: 10.sp,
                 fontWeight: FontWeight.w900,
               ),
             ),
@@ -67,10 +67,11 @@ class CustomerInfo extends StatelessWidget {
             height: 15.h,
             fit: BoxFit.fitHeight,
           ),
+          addW(5.w),
           Text(
             txt,
             style: TextStyle(
-              fontSize: 12.sp,
+              fontSize: 10.sp,
             ),
           ),
         ],

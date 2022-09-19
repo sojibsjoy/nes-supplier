@@ -1,4 +1,0 @@
-#Fri Sep 16 14:09:02 BDT 2022
-base.0=/Volumes/Data/Works/royex/nes_supplier/build/app/intermediates/dex/debug/mergeDexDebug/classes.dex
-renamed.0=classes.dex
-path.0=classes.dex

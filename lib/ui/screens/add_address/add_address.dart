@@ -72,8 +72,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                   margin: EdgeInsets.only(right: 5.w),
                   color: Colors.grey,
                 ),
-                SizedBox(
-                  width: 190.w,
+                Expanded(
                   child: _txtField(
                     textCon: _phoneNo,
                     hintTxt: '1716589947',

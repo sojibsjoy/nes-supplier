@@ -2,6 +2,7 @@ import 'package:dogventurehq/ui/designs/custom_appbar.dart';
 import 'package:dogventurehq/ui/designs/custom_btn.dart';
 import 'package:dogventurehq/ui/designs/custom_txt_btn.dart';
 import 'package:dogventurehq/ui/screens/home/drawer.dart';
+import 'package:dogventurehq/ui/screens/home/filter.dart';
 import 'package:dogventurehq/ui/widgets/floating_btn.dart';
 import 'package:dogventurehq/ui/widgets/nav_bar.dart';
 import 'package:dogventurehq/ui/screens/home/home_con.dart';
@@ -126,6 +127,18 @@ class _HomeScreenState extends State<HomeScreen> {
             // search bar
             SearchBar(
               searchCon: _searchCon,
+              filterIconFn: () {
+                showModalBottomSheet(
+                  context: context,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(10.r),
+                    ),
+                  ),
+                  isScrollControlled: true,
+                  builder: (_) => const Filter(),
+                );
+              },
             ),
             addH(20.h),
             // Product list

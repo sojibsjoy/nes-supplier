@@ -46,11 +46,11 @@ class ProductItem extends StatelessWidget {
             children: [
               // product name
               SizedBox(
-                width: 265.w,
+                width: 268.w,
                 child: Row(
                   children: [
                     SizedBox(
-                      width: 180.w,
+                      width: 175.w,
                       child: Text(
                         'Saan Padi - Chocolate Flavour',
                         maxLines: 2,

@@ -6,9 +6,11 @@ import 'package:flutter_svg/svg.dart';
 
 class SearchBar extends StatelessWidget {
   final TextEditingController searchCon;
+  final VoidCallback filterIconFn;
   const SearchBar({
     Key? key,
     required this.searchCon,
+    required this.filterIconFn,
   }) : super(key: key);
 
   @override
@@ -44,16 +46,21 @@ class SearchBar extends StatelessWidget {
             ),
           ),
           // filter icon
-          Container(
-            width: 34.w,
-            height: 34.h,
-            decoration: BoxDecoration(
-              color: Colors.black,
-              borderRadius: BorderRadius.circular(10.r),
-            ),
-            child: Center(
-              child: SvgPicture.asset(
-                'assets/svgs/filter.svg',
+          InkWell(
+            onTap: filterIconFn,
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            child: Container(
+              width: 34.w,
+              height: 34.h,
+              decoration: BoxDecoration(
+                color: Colors.black,
+                borderRadius: BorderRadius.circular(10.r),
+              ),
+              child: Center(
+                child: SvgPicture.asset(
+                  'assets/svgs/filter.svg',
+                ),
               ),
             ),
           ),

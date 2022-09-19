@@ -68,12 +68,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           alignment: AlignmentDirectional.bottomEnd,
                           children: [
                             // user image
-                            ClipOval(
-                              child: Image.asset(
-                                'assets/imgs/user.png',
-                                width: 115.w,
-                                height: 115.h,
-                                fit: BoxFit.cover,
+                            Hero(
+                              tag: 'userDP',
+                              child: ClipOval(
+                                child: Image.asset(
+                                  'assets/imgs/user.png',
+                                  width: 115.w,
+                                  height: 115.h,
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                             ),
                             // photo uploading btn

@@ -15,6 +15,11 @@ PreferredSizeWidget customAppBar({
 }) =>
     AppBar(
       backgroundColor: Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          bottom: Radius.circular(10.r),
+        ),
+      ),
       leading: InkWell(
         onTap: leadingFn ?? () => Get.back(),
         splashColor: Colors.transparent,

@@ -32,7 +32,6 @@ class HomeDrawer extends StatelessWidget {
     'Log Out',
   ];
   final List<VoidCallback> _menuOnTapFns = [
-    // section 1
     () => Get.back(),
     () => Get.toNamed(MyOrdersScreen.routeName),
     () => Get.toNamed(TotalOrdersScreen.routeName),
@@ -83,12 +82,15 @@ class HomeDrawer extends StatelessWidget {
                   child: Row(
                     children: [
                       // user dp
-                      ClipOval(
-                        child: Image.asset(
-                          'assets/imgs/user.png',
-                          width: 80.w,
-                          height: 80.h,
-                          fit: BoxFit.cover,
+                      Hero(
+                        tag: 'userDP',
+                        child: ClipOval(
+                          child: Image.asset(
+                            'assets/imgs/user.png',
+                            width: 80.w,
+                            height: 80.h,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                       addW(10.h),
@@ -151,116 +153,116 @@ class HomeDrawer extends StatelessWidget {
             ),
           ),
           // body view
-          Container(
-            width: double.infinity,
-            height: 726.h,
-            padding: EdgeInsets.only(top: 10.h),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(15.r),
-                topRight: Radius.circular(15.r),
-              ),
-            ),
-            child: Stack(
-              children: [
-                Positioned(
-                  bottom: 0,
-                  left: 0,
-                  child: Image.asset(
-                    'assets/imgs/shadow_logo.png',
-                    height: 250.h,
-                    fit: BoxFit.fitHeight,
-                  ),
+          Expanded(
+            child: Container(
+              width: double.infinity,
+              padding: EdgeInsets.only(top: 10.h),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.vertical(
+                  top: Radius.circular(15.r),
                 ),
-                Column(
-                  children: [
-                    ListView.builder(
-                      itemCount: 7,
-                      shrinkWrap: true,
-                      itemBuilder: (BuildContext context, int index) {
-                        return CustomMenuItem(
-                          onTapFn: _menuOnTapFns[index],
-                          icon: _menuIcons[index],
-                          title: _menuTitle[index],
-                          noDividerFlag: index == 6 ? true : null,
-                        );
-                      },
+              ),
+              child: Stack(
+                children: [
+                  Positioned(
+                    bottom: 0,
+                    left: 0,
+                    child: Image.asset(
+                      'assets/imgs/shadow_logo.png',
+                      height: 250.h,
+                      fit: BoxFit.fitHeight,
                     ),
-                    addH(100.h),
-                    // email admin text
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          width: 35.w,
-                          height: 35.h,
-                          margin: EdgeInsets.only(right: 10.w),
-                          decoration: BoxDecoration(
-                            color: Colors.red.shade900,
-                            shape: BoxShape.circle,
-                          ),
-                          child: Center(
-                            child: SvgPicture.asset(
-                              'assets/svgs/email.svg',
-                              color: Colors.white,
-                              width: 20.w,
-                              fit: BoxFit.fitWidth,
+                  ),
+                  Column(
+                    children: [
+                      ListView.builder(
+                        itemCount: 7,
+                        shrinkWrap: true,
+                        itemBuilder: (BuildContext context, int index) {
+                          return CustomMenuItem(
+                            onTapFn: _menuOnTapFns[index],
+                            icon: _menuIcons[index],
+                            title: _menuTitle[index],
+                            noDividerFlag: index == 6 ? true : null,
+                          );
+                        },
+                      ),
+                      addH(60.h),
+                      // email admin text
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: 35.w,
+                            height: 35.h,
+                            margin: EdgeInsets.only(right: 10.w),
+                            decoration: BoxDecoration(
+                              color: Colors.red.shade900,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Center(
+                              child: SvgPicture.asset(
+                                'assets/svgs/email.svg',
+                                color: Colors.white,
+                                width: 20.w,
+                                fit: BoxFit.fitWidth,
+                              ),
                             ),
                           ),
-                        ),
-                        Text(
-                          'Email Admin',
-                          style: TextStyle(
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w700,
+                          Text(
+                            'Email Admin',
+                            style: TextStyle(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w700,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                    addH(30.h),
-                    // twitter, fb, insta logos
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        _socialIcon('twitter'),
-                        addW(20.w),
-                        _socialIcon('fb'),
-                        addW(20.w),
-                        _socialIcon('instagram'),
-                      ],
-                    ),
-                    addH(30.h),
-                    // version details & copyright
-                    Text(
-                      'Version 12.23.0 (15.1)',
-                      style: TextStyle(
-                        fontSize: 10.sp,
+                        ],
                       ),
-                    ),
-                    addH(5.h),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          '2021 Near Expiry.',
-                          style: TextStyle(
-                            fontSize: 10.sp,
-                            color: Colors.red.shade900,
-                          ),
+                      addH(30.h),
+                      // twitter, fb, insta logos
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          _socialIcon('twitter'),
+                          addW(20.w),
+                          _socialIcon('fb'),
+                          addW(20.w),
+                          _socialIcon('instagram'),
+                        ],
+                      ),
+                      addH(30.h),
+                      // version details & copyright
+                      Text(
+                        'Version 12.23.0 (15.1)',
+                        style: TextStyle(
+                          fontSize: 10.sp,
                         ),
-                        addW(5.w),
-                        Text(
-                          'All Right Resereved.',
-                          style: TextStyle(
-                            fontSize: 10.sp,
+                      ),
+                      addH(5.h),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            '2021 Near Expiry.',
+                            style: TextStyle(
+                              fontSize: 10.sp,
+                              color: Colors.red.shade900,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ],
+                          addW(5.w),
+                          Text(
+                            'All Right Resereved.',
+                            style: TextStyle(
+                              fontSize: 10.sp,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ],

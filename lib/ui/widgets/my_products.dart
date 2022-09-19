@@ -26,7 +26,7 @@ class MyProducts extends StatelessWidget {
         CustomBtn(
           onPressedFn: () {},
           btnTxt: '+  Add new product',
-          btnSize: Size(120.w, 32.h),
+          btnSize: Size(135.w, 32.h),
           txtSize: 10.sp,
           btnBorderRadius: 10.r,
         ),

@@ -33,6 +33,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
             // search bar
             SearchBar(
               searchCon: _searchCon,
+              filterIconFn: () {},
             ),
             addH(10.h),
             // Product list

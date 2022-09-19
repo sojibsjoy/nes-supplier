@@ -42,13 +42,13 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
                   return Padding(
-                    padding: EdgeInsets.only(right: 5.w),
+                    padding: EdgeInsets.only(right: 10.w),
                     child: CustomBtn(
                       onPressedFn: () {
                         setState(() => _selectedBtnIndex = index);
                       },
                       btnTxt: _btnTxts[index],
-                      btnSize: Size(120.w, 35.h),
+                      btnSize: Size(140.w, 35.h),
                       txtSize: 12.sp,
                       btnBorderRadius: 10.r,
                       btnColor:

@@ -49,7 +49,7 @@ class AllRoutes {
     ),
     GetPage(
       name: PrivacyPolicyScreen.routeName,
-      page: () => const NotificationScreen(),
+      page: () => const PrivacyPolicyScreen(),
     ),
     GetPage(
       name: AddAddressScreen.routeName,
