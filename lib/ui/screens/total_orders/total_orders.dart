@@ -15,10 +15,10 @@ class TotalOrdersScreen extends StatelessWidget {
         titleTxt: 'Total Orders',
         noSuffixIcon: true,
       ),
-      body: Padding(
-        padding: EdgeInsets.only(top: 10.h),
-        child: ProductList(),
-      ),
+      // body: Padding(
+      //   padding: EdgeInsets.only(top: 10.h),
+      //   child: ProductList(),
+      // ),
     );
   }
 }

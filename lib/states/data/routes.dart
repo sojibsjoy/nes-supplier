@@ -1,4 +1,7 @@
+import 'package:dogventurehq/states/bindings/auth.dart';
 import 'package:dogventurehq/states/bindings/initial.dart';
+import 'package:dogventurehq/states/bindings/order.dart';
+import 'package:dogventurehq/states/bindings/product.dart';
 import 'package:dogventurehq/ui/screens/add_address/add_address.dart';
 import 'package:dogventurehq/ui/screens/home/home.dart';
 import 'package:dogventurehq/ui/screens/login/login.dart';
@@ -17,7 +20,10 @@ class AllRoutes {
     GetPage(
       name: SplashScreen.routeName,
       page: () => const SplashScreen(),
-      binding: InitialBinding(),
+      bindings: [
+        InitialBinding(),
+        ProductBinding(),
+      ],
     ),
     GetPage(
       name: HomeScreen.routeName,
@@ -26,14 +32,17 @@ class AllRoutes {
     GetPage(
       name: LoginScreen.routeName,
       page: () => const LoginScreen(),
+      binding: AuthBinding(),
     ),
     GetPage(
       name: ProductsScreen.routeName,
       page: () => const ProductsScreen(),
+      binding: ProductBinding(),
     ),
     GetPage(
       name: MyOrdersScreen.routeName,
       page: () => const MyOrdersScreen(),
+      binding: OrderBinding(),
     ),
     GetPage(
       name: OrderDetails.routeName,

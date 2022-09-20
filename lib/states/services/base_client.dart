@@ -1,29 +1,47 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:dogventurehq/constants/strings.dart';
 
 class BaseClient {
-  static Future<dynamic> getData({required String api}) async {
-    print(ConstantStrings.kBaseUrl + api);
+  static Future<dynamic> getData({
+    required String api,
+    dynamic parameter,
+  }) async {
+    String url = ConstantStrings.kBaseUrl + ConstantStrings.kAPIVersion + api;
+    print('Sending request to: $url');
     try {
-      var response = await Dio().get(ConstantStrings.kBaseUrl + api);
-      print('Base Client: ${response.statusCode}');
-      print(response.data);
+      var response = await Dio().get(
+        ConstantStrings.kBaseUrl + ConstantStrings.kAPIVersion + api,
+        queryParameters: parameter,
+      );
+      print('GET Method: ${response.statusCode}');
+      print(url);
+      log("GET Response:  ${response.data}");
       return response.data;
     } catch (e) {
-      print(e);
+      print("Error: $e");
     }
   }
 
-  static Future<dynamic> postData(
-      {required String api, required dynamic body}) async {
+  static Future<dynamic> postData({
+    required String api,
+    required dynamic body,
+  }) async {
+    String url = ConstantStrings.kBaseUrl + ConstantStrings.kAPIVersion + api;
+    print('Sending request to: $url');
+    log("Post Body: $body");
     try {
       var response = await Dio().post(
-        ConstantStrings.kBaseUrl + api,
+        ConstantStrings.kBaseUrl + ConstantStrings.kAPIVersion + api,
         data: body,
       );
+      print('POST Method: ${response.statusCode}');
+      print(url);
+      log("POST Response:  ${response.data}");
       return response.data;
     } catch (e) {
-      print(e);
+      print("Error: $e");
     }
   }
 }

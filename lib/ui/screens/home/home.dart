@@ -1,3 +1,7 @@
+import 'package:dogventurehq/constants/strings.dart';
+import 'package:dogventurehq/states/controllers/product.dart';
+import 'package:dogventurehq/states/data/prefs.dart';
+import 'package:dogventurehq/states/models/supplier.dart';
 import 'package:dogventurehq/ui/designs/custom_appbar.dart';
 import 'package:dogventurehq/ui/designs/custom_btn.dart';
 import 'package:dogventurehq/ui/designs/custom_txt_btn.dart';
@@ -24,9 +28,19 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final ProductController _productCon = Get.find<ProductController>();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final TextEditingController _searchCon = TextEditingController();
+  late SupplierModel _supplierInfo;
   bool _isDaily = true;
+
+  @override
+  void initState() {
+    _supplierInfo = Preference.getUserDetails();
+    _productCon.getProducts(supplierID: _supplierInfo.supplierId);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +54,9 @@ class _HomeScreenState extends State<HomeScreen> {
           fit: BoxFit.fitWidth,
         ),
       ),
-      drawer: HomeDrawer(),
+      drawer: HomeDrawer(
+        supplierInfo: _supplierInfo,
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -142,7 +158,20 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             addH(20.h),
             // Product list
-            ProductList(),
+            Obx(() {
+              if (_productCon.productsLoading.value) {
+                return const CircularProgressIndicator();
+              } else {
+                if (_productCon.products == null) {
+                  return Text(ConstantStrings.kNoData);
+                } else {
+                  return ProductList(
+                    productsList:
+                        _productCon.products!.productListRequestModels,
+                  );
+                }
+              }
+            })
           ],
         ),
       ),

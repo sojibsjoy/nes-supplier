@@ -1,8 +1,13 @@
+import 'package:dogventurehq/constants/strings.dart';
+import 'package:dogventurehq/states/controllers/order.dart';
+import 'package:dogventurehq/states/data/prefs.dart';
+import 'package:dogventurehq/states/models/supplier.dart';
 import 'package:dogventurehq/ui/designs/custom_appbar.dart';
 import 'package:dogventurehq/ui/designs/custom_btn.dart';
 import 'package:dogventurehq/ui/screens/my_orders/order_item.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class MyOrdersScreen extends StatefulWidget {
   static String routeName = '/my_orders';
@@ -13,6 +18,8 @@ class MyOrdersScreen extends StatefulWidget {
 }
 
 class _MyOrdersScreenState extends State<MyOrdersScreen> {
+  final OrderController _orderCon = Get.find<OrderController>();
+  late SupplierModel _supplierInfo;
   final List<String> _btnTxts = [
     'Current Order',
     'New Order',
@@ -21,6 +28,15 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
     'Previous Order',
   ];
   int _selectedBtnIndex = 0;
+  @override
+  void initState() {
+    _supplierInfo = Preference.getUserDetails();
+    _orderCon.getCurrentOrders(
+      supplierID: _supplierInfo.supplierId,
+    );
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +61,9 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
                     padding: EdgeInsets.only(right: 10.w),
                     child: CustomBtn(
                       onPressedFn: () {
-                        setState(() => _selectedBtnIndex = index);
+                        setState(
+                          () => _selectedBtnIndex = index,
+                        );
                       },
                       btnTxt: _btnTxts[index],
                       btnSize: Size(140.w, 35.h),
@@ -61,15 +79,33 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
               ),
             ),
             // order list
-            ListView.builder(
-              itemCount: 10,
-              shrinkWrap: true,
-              primary: false,
-              padding: EdgeInsets.only(top: 20.h),
-              itemBuilder: (BuildContext context, int index) {
-                return const OrderItem();
-              },
-            ),
+            Obx(() {
+              if (_orderCon.currentOrdersLoading.value) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else {
+                if (_orderCon.currentOrders.isEmpty) {
+                  return Center(
+                    child: Text(
+                      ConstantStrings.kNoData,
+                    ),
+                  );
+                } else {
+                  return ListView.builder(
+                    itemCount: _orderCon.currentOrders.length,
+                    shrinkWrap: true,
+                    primary: false,
+                    padding: EdgeInsets.only(top: 20.h),
+                    itemBuilder: (BuildContext context, int index) {
+                      return OrderItem(
+                        oModel: _orderCon.currentOrders[index],
+                      );
+                    },
+                  );
+                }
+              }
+            }),
           ],
         ),
       ),

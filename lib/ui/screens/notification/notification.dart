@@ -11,9 +11,7 @@ class NotificationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBar(
-        titleTxt: 'Notification',
-      ),
+      appBar: customAppBar(titleTxt: 'Notification', noSuffixIcon: true),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20.w),
         child: SingleChildScrollView(

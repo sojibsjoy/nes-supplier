@@ -1,3 +1,4 @@
+import 'package:dogventurehq/states/models/orders.dart';
 import 'package:dogventurehq/ui/screens/order_details/order_details.dart';
 import 'package:dogventurehq/ui/widgets/helper.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,7 +7,11 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/route_manager.dart';
 
 class OrderItem extends StatelessWidget {
-  const OrderItem({Key? key}) : super(key: key);
+  final OrderModel oModel;
+  const OrderItem({
+    Key? key,
+    required this.oModel,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -42,19 +47,19 @@ class OrderItem extends StatelessWidget {
                 Text(
                   'Invoice Number: ',
                   style: TextStyle(
-                    fontSize: 16.sp,
+                    fontSize: 14.sp,
                   ),
                 ),
                 Text(
-                  '#Sc124535',
+                  '#${oModel.refNumber}',
                   style: TextStyle(
-                    fontSize: 16.sp,
+                    fontSize: 14.sp,
                     fontWeight: FontWeight.w900,
                   ),
                 ),
                 const Spacer(),
                 Text(
-                  'Processing..',
+                  oModel.invoiceStatusName,
                   style: TextStyle(
                     color: Colors.green,
                     fontSize: 12.sp,
@@ -73,7 +78,7 @@ class OrderItem extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  'Sara Faris',
+                  oModel.customerViewModel.firstLastName,
                   style: TextStyle(
                     fontSize: 14.sp,
                   ),
@@ -90,7 +95,7 @@ class OrderItem extends StatelessWidget {
                 ),
                 addW(5.w),
                 Text(
-                  '117/5 Semon joyi, Ranipukur, Sagorpara, Rajshahi',
+                  oModel.customerViewModel.customerAddressViewModels[0].address,
                   style: TextStyle(
                     fontSize: 12.sp,
                   ),

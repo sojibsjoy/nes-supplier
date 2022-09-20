@@ -1,5 +1,7 @@
 import 'package:country_pickers/country.dart';
 import 'package:country_pickers/country_pickers.dart';
+import 'package:dogventurehq/states/data/prefs.dart';
+import 'package:dogventurehq/states/models/supplier.dart';
 import 'package:dogventurehq/ui/designs/custom_appbar.dart';
 import 'package:dogventurehq/ui/designs/custom_btn.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -18,9 +20,21 @@ class AddAddressScreen extends StatefulWidget {
 class _AddAddressScreenState extends State<AddAddressScreen> {
   final TextEditingController _nameCon = TextEditingController();
   final TextEditingController _emailCon = TextEditingController();
-  final TextEditingController _phoneNo = TextEditingController();
-  final TextEditingController _address = TextEditingController();
+  final TextEditingController _phoneNoCon = TextEditingController();
+  final TextEditingController _addressCon = TextEditingController();
   Country? _selectedCountry;
+  late SupplierModel _supplierInfo;
+
+  @override
+  void initState() {
+    _supplierInfo = Preference.getUserDetails();
+    _nameCon.text = _supplierInfo.supplierName;
+    _emailCon.text = _supplierInfo.email;
+    _phoneNoCon.text = _supplierInfo.mobile;
+    _addressCon.text = _supplierInfo.address;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,7 +88,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                 ),
                 Expanded(
                   child: _txtField(
-                    textCon: _phoneNo,
+                    textCon: _phoneNoCon,
                     hintTxt: '1716589947',
                   ),
                 )
@@ -83,7 +97,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
             addH(20.h),
             _fieldTitle(icon: 'location', title: 'Address'),
             _txtField(
-              textCon: _address,
+              textCon: _addressCon,
               hintTxt: '117/5 Semon Joyi, Rani Pukur, Sagor para',
             ),
             addH(20.h),

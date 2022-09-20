@@ -1,5 +1,6 @@
 import 'package:country_pickers/country.dart';
 import 'package:country_pickers/country_pickers.dart';
+import 'package:dogventurehq/states/controllers/auth.dart';
 import 'package:dogventurehq/states/data/prefs.dart';
 import 'package:dogventurehq/ui/designs/custom_btn.dart';
 import 'package:dogventurehq/ui/designs/custom_field.dart';
@@ -20,10 +21,25 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final AuthController _authCon = Get.find<AuthController>();
   final TextEditingController _mobileNoCon = TextEditingController();
   final TextEditingController _otpCon = TextEditingController();
   bool _otpSendFlag = false;
+  final bool _otpSubmittedFlag = false;
   Country? _selectedCountry;
+
+  @override
+  void initState() {
+    _authCon.isLoggingIn.listen((value) {
+      print('lister added');
+      if (!value && _authCon.isLoggedIn.value) {
+        Preference.setLoggedInFlag(true);
+        Get.toNamed(HomeScreen.routeName);
+      }
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,10 +112,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           margin: EdgeInsets.only(right: 5.w),
                           color: Colors.grey,
                         ),
-                      CustomField(
-                        width: _otpSendFlag ? 290.w : 180.w,
-                        textCon: _mobileNoCon,
-                        hintText: _otpSendFlag ? '123456' : '123456789',
+                      Expanded(
+                        child: CustomField(
+                          textCon: _mobileNoCon,
+                          hintText: _otpSendFlag ? '123456' : '123456789',
+                        ),
                       ),
                     ],
                   ),
@@ -118,11 +135,13 @@ class _LoginScreenState extends State<LoginScreen> {
                       children: [
                         CustomBtn(
                           onPressedFn: () {
-                            Preference.setLoggedInFlag(true);
-                            Get.toNamed(HomeScreen.routeName);
+                            _authCon.login(
+                              email: 'rezaul@royex.net',
+                              password: '123456',
+                            );
                           },
                           btnTxt: 'Enter OTP',
-                          btnSize: Size(105.w, 45.h),
+                          btnSize: Size(115.w, 45.h),
                         ),
                         CustomTxtBtn(
                           onTapFn: () {},

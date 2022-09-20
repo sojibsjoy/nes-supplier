@@ -43,6 +43,7 @@ dependencies:
   country_pickers: ^2.0.0
   rename: ^2.0.1
   flutter_slidable: ^2.0.0
+  flutter_easyloading: ^3.0.5
 
 dev_dependencies:
   flutter_test:

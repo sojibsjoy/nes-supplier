@@ -1,3 +1,4 @@
+import 'package:dogventurehq/ui/designs/custom_img.dart';
 import 'package:dogventurehq/ui/widgets/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -5,10 +6,18 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/svg.dart';
 
 class ProductItem extends StatelessWidget {
-  int index;
+  final String imgUrl;
+  final String productName;
+  final String productWeight;
+  final double productPrice;
+  final int index;
   Widget? suffixWidget;
   ProductItem({
     Key? key,
+    required this.imgUrl,
+    required this.productName,
+    required this.productWeight,
+    required this.productPrice,
     required this.index,
     this.suffixWidget,
   }) : super(key: key);
@@ -85,8 +94,8 @@ class ProductItem extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10.r),
               ),
               child: Center(
-                child: Image.asset(
-                  'assets/imgs/product.png',
+                child: CustomImg(
+                  imgUrl: imgUrl,
                 ),
               ),
             ),
@@ -103,7 +112,7 @@ class ProductItem extends StatelessWidget {
                       SizedBox(
                         width: 175.w,
                         child: Text(
-                          'Saan Padi - Chocolate Flavour',
+                          productName,
                           maxLines: 2,
                           style: TextStyle(
                             fontSize: 12.sp,
@@ -117,7 +126,7 @@ class ProductItem extends StatelessWidget {
                 ),
                 // product weight
                 Text(
-                  '250 gm',
+                  productWeight,
                   style: TextStyle(
                     color: Colors.grey,
                     fontSize: 10.sp,
@@ -135,7 +144,7 @@ class ProductItem extends StatelessWidget {
                     ),
                     addW(5.w),
                     Text(
-                      '30',
+                      productPrice.round().toString(),
                       style: TextStyle(
                         color: Colors.red.shade900,
                         fontWeight: FontWeight.bold,

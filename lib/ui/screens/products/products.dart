@@ -1,11 +1,13 @@
+import 'package:dogventurehq/states/controllers/product.dart';
 import 'package:dogventurehq/ui/designs/custom_appbar.dart';
-import 'package:dogventurehq/ui/screens/home/product_item.dart';
+import 'package:dogventurehq/ui/screens/home/filter.dart';
 import 'package:dogventurehq/ui/screens/home/search_bar.dart';
 import 'package:dogventurehq/ui/widgets/helper.dart';
 import 'package:dogventurehq/ui/widgets/my_products.dart';
 import 'package:dogventurehq/ui/widgets/product_list.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ProductsScreen extends StatefulWidget {
   static String routeName = '/products';
@@ -16,6 +18,7 @@ class ProductsScreen extends StatefulWidget {
 }
 
 class _ProductsScreenState extends State<ProductsScreen> {
+  final ProductController _productCon = Get.find<ProductController>();
   final TextEditingController _searchCon = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -33,11 +36,24 @@ class _ProductsScreenState extends State<ProductsScreen> {
             // search bar
             SearchBar(
               searchCon: _searchCon,
-              filterIconFn: () {},
+              filterIconFn: () {
+                showModalBottomSheet(
+                  context: context,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(10.r),
+                    ),
+                  ),
+                  isScrollControlled: true,
+                  builder: (_) => const Filter(),
+                );
+              },
             ),
             addH(10.h),
             // Product list
-            ProductList(),
+            ProductList(
+              productsList: _productCon.products!.productListRequestModels,
+            ),
           ],
         ),
       ),

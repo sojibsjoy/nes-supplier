@@ -6,7 +6,6 @@ import 'package:dogventurehq/ui/screens/order_details/details_con.dart';
 import 'package:dogventurehq/ui/screens/order_details/payment_info.dart';
 import 'package:dogventurehq/ui/screens/products/products.dart';
 import 'package:dogventurehq/ui/widgets/helper.dart';
-import 'package:dogventurehq/ui/widgets/product_list.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -61,15 +60,15 @@ class OrderDetails extends StatelessWidget {
                 ],
               ),
               // Order List
-              ProductList(
-                noPadding: true,
-                suffixWidget: Text(
-                  'Qty (Pics): 500',
-                  style: TextStyle(
-                    fontSize: 12.sp,
-                  ),
-                ),
-              ),
+              // ProductList(
+              //   noPadding: true,
+              //   suffixWidget: Text(
+              //     'Qty (Pics): 500',
+              //     style: TextStyle(
+              //       fontSize: 12.sp,
+              //     ),
+              //   ),
+              // ),
               addH(10.h),
               // divider
               const Divider(thickness: 1),

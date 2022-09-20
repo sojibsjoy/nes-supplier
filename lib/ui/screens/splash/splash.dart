@@ -21,7 +21,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void navigating() async {
-    if (!Preference.getLoggedInFlag()) {
+    if (Preference.getLoggedInFlag()) {
       Future.delayed(
         const Duration(seconds: 2),
         () => Get.toNamed(HomeScreen.routeName),

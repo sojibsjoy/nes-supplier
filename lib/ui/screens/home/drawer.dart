@@ -1,4 +1,8 @@
+import 'package:dogventurehq/states/data/prefs.dart';
+import 'package:dogventurehq/states/models/supplier.dart';
+import 'package:dogventurehq/ui/designs/custom_img.dart';
 import 'package:dogventurehq/ui/designs/menu_item.dart';
+import 'package:dogventurehq/ui/screens/login/login.dart';
 import 'package:dogventurehq/ui/screens/my_orders/my_orders.dart';
 import 'package:dogventurehq/ui/screens/notification/notification.dart';
 import 'package:dogventurehq/ui/screens/privacy_policy/privacy_policy.dart';
@@ -11,7 +15,11 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/route_manager.dart';
 
 class HomeDrawer extends StatelessWidget {
-  HomeDrawer({Key? key}) : super(key: key);
+  final SupplierModel supplierInfo;
+  HomeDrawer({
+    Key? key,
+    required this.supplierInfo,
+  }) : super(key: key);
 
   final List<String> _menuIcons = [
     'home',
@@ -38,7 +46,10 @@ class HomeDrawer extends StatelessWidget {
     () => Get.toNamed(NotificationScreen.routeName),
     () => Get.toNamed(ProfileScreen.routeName),
     () => Get.toNamed(PrivacyPolicyScreen.routeName),
-    () => print('Log out'),
+    () {
+      Preference.logOut();
+      Get.offAllNamed(LoginScreen.routeName);
+    },
     // () => AwesomeDialog(
     //       context: Get.context!,
     //       dialogType: DialogType.WARNING,
@@ -85,11 +96,11 @@ class HomeDrawer extends StatelessWidget {
                       Hero(
                         tag: 'userDP',
                         child: ClipOval(
-                          child: Image.asset(
-                            'assets/imgs/user.png',
-                            width: 80.w,
-                            height: 80.h,
-                            fit: BoxFit.cover,
+                          child: CustomImg(
+                            imgUrl: supplierInfo.shopImage,
+                            imgWidth: 80.w,
+                            imgHeight: 80.h,
+                            imgFit: BoxFit.cover,
                           ),
                         ),
                       ),
@@ -101,7 +112,7 @@ class HomeDrawer extends StatelessWidget {
                         children: [
                           // user name
                           Text(
-                            'Md. Sojib Sarker',
+                            supplierInfo.shopName,
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 18.sp,
@@ -122,7 +133,7 @@ class HomeDrawer extends StatelessWidget {
                               addW(5.w),
                               // location details
                               Text(
-                                'Dubai, UAE',
+                                supplierInfo.address,
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 12.sp,

@@ -1,3 +1,6 @@
+import 'package:dogventurehq/states/data/prefs.dart';
+import 'package:dogventurehq/states/models/supplier.dart';
+import 'package:dogventurehq/ui/designs/custom_img.dart';
 import 'package:dogventurehq/ui/designs/menu_item.dart';
 import 'package:dogventurehq/ui/screens/add_address/add_address.dart';
 import 'package:dogventurehq/ui/screens/profile/summary_con.dart';
@@ -22,6 +25,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
   bool _acceptingOrdersFlag = false;
   bool _enableOTPFlag = false;
   bool _notificationFlag = false;
+  late SupplierModel _supplierInfo;
+  @override
+  void initState() {
+    _supplierInfo = Preference.getUserDetails();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,11 +81,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             Hero(
                               tag: 'userDP',
                               child: ClipOval(
-                                child: Image.asset(
-                                  'assets/imgs/user.png',
-                                  width: 115.w,
-                                  height: 115.h,
-                                  fit: BoxFit.cover,
+                                child: CustomImg(
+                                  imgUrl: _supplierInfo.shopImage,
+                                  imgWidth: 115.w,
+                                  imgHeight: 115.h,
+                                  imgFit: BoxFit.cover,
                                 ),
                               ),
                             ),
@@ -112,7 +122,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       addH(10.h),
                       // user name
                       Text(
-                        'Md. Sojib Sarker',
+                        _supplierInfo.shopName,
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 18.sp,
@@ -132,7 +142,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                           addW(5.w),
                           Text(
-                            'Dubai, UAE',
+                            _supplierInfo.address,
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 12.sp,
@@ -163,17 +173,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   CustomMenuItem(
                     icon: 'person',
                     title: 'Name',
-                    suffixTxt: 'Md. Sojib Sarker',
+                    suffixTxt: _supplierInfo.supplierName,
                   ),
                   CustomMenuItem(
                     icon: 'email',
                     title: 'Email',
-                    suffixTxt: 'sojib.vu@gmail.com',
+                    suffixTxt: _supplierInfo.email,
                   ),
                   CustomMenuItem(
                     icon: 'phone',
                     title: 'Mobile',
-                    suffixTxt: '+880 1716 589947',
+                    suffixTxt: _supplierInfo.mobile,
                   ),
                   CustomMenuItem(
                     icon: 'accepting_order',
