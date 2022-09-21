@@ -4,12 +4,14 @@ import 'package:dogventurehq/states/services/base_client.dart';
 class OrderService {
   // Login Function
   static Future<dynamic> getCurrentOrders({
+    required int invoiceStatusId,
     required int supplierId,
   }) async {
     var response = await BaseClient.getData(
-      api: ConstantStrings.kCurrentOrders,
+      api: ConstantStrings.kGetOrderByStatusID,
       parameter: {
-        "SupplierId": '$supplierId',
+        "invoiceStatusId": '$invoiceStatusId',
+        "supplierId": '$supplierId',
       },
     );
     return response;

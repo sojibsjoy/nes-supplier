@@ -1,6 +1,9 @@
+import 'package:dogventurehq/constants/strings.dart';
+import 'package:dogventurehq/states/models/orders.dart';
 import 'package:dogventurehq/ui/designs/custom_appbar.dart';
 import 'package:dogventurehq/ui/designs/custom_btn.dart';
 import 'package:dogventurehq/ui/designs/custom_txt_btn.dart';
+import 'package:dogventurehq/ui/screens/home/product_item.dart';
 import 'package:dogventurehq/ui/screens/order_details/customer_info.dart';
 import 'package:dogventurehq/ui/screens/order_details/details_con.dart';
 import 'package:dogventurehq/ui/screens/order_details/payment_info.dart';
@@ -12,7 +15,9 @@ import 'package:get/get.dart';
 
 class OrderDetails extends StatelessWidget {
   static String routeName = '/order_details';
-  const OrderDetails({Key? key}) : super(key: key);
+  OrderDetails({Key? key}) : super(key: key);
+
+  final OrderModel oModel = Get.arguments;
 
   @override
   Widget build(BuildContext context) {
@@ -30,16 +35,16 @@ class OrderDetails extends StatelessWidget {
               // customer and payment details
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
+                children: [
                   // customer details
                   DetailsCon(
                     title: 'Customer Details',
-                    child: CustomerInfo(),
+                    child: CustomerInfo(orderModel: oModel),
                   ),
                   // payment details
                   DetailsCon(
                     title: "Payment Details",
-                    child: PaymentInfo(),
+                    child: PaymentInfo(orderModel: oModel),
                   ),
                 ],
               ),
@@ -60,15 +65,36 @@ class OrderDetails extends StatelessWidget {
                 ],
               ),
               // Order List
-              // ProductList(
-              //   noPadding: true,
-              //   suffixWidget: Text(
-              //     'Qty (Pics): 500',
-              //     style: TextStyle(
-              //       fontSize: 12.sp,
-              //     ),
-              //   ),
-              // ),
+              oModel.invoiceDetailsViewModels.isEmpty
+                  ? Center(
+                      child: Text(
+                        ConstantStrings.kNoData,
+                      ),
+                    )
+                  : ListView.builder(
+                      itemCount: oModel.invoiceDetailsViewModels.length,
+                      primary: false,
+                      shrinkWrap: true,
+                      itemBuilder: (BuildContext context, int index) {
+                        return ProductItem(
+                          index: index,
+                          imgUrl: oModel
+                              .invoiceDetailsViewModels[index].fileLocation,
+                          productName: oModel
+                              .invoiceDetailsViewModels[index].productName,
+                          productWeight:
+                              oModel.invoiceDetailsViewModels[index].subSku,
+                          productPrice:
+                              oModel.invoiceDetailsViewModels[index].price,
+                          suffixWidget: Text(
+                            'Qty (Pics):  ${oModel.invoiceDetailsViewModels[index].quantity}',
+                            style: TextStyle(
+                              fontSize: 12.sp,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
               addH(10.h),
               // divider
               const Divider(thickness: 1),
@@ -95,20 +121,24 @@ class OrderDetails extends StatelessWidget {
                   children: [
                     _summaryItem(
                       prefixTxt: 'Sub Total',
-                      suffixTxt: '23,350',
+                      suffixTxt: oModel.totalAmount.toString(),
                     ),
                     _summaryItem(
                       prefixTxt: 'Service Charge',
-                      suffixTxt: '100',
+                      suffixTxt: oModel.paymentViewModels.isEmpty
+                          ? '0.0'
+                          : (oModel.paymentViewModels[0].carryingCost +
+                                  oModel.paymentViewModels[0].courierCharge)
+                              .toString(),
                     ),
                     _summaryItem(
                       prefixTxt: 'Estimated VAT',
-                      suffixTxt: '100',
+                      suffixTxt: '0.0',
                     ),
                     const Divider(thickness: 1),
                     _summaryItem(
                       prefixTxt: 'Total',
-                      suffixTxt: '23,550',
+                      suffixTxt: _getTotalAmount(),
                     ),
                   ],
                 ),
@@ -163,6 +193,16 @@ class OrderDetails extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String _getTotalAmount() {
+    if (oModel.paymentViewModels.isEmpty) {
+      return '0.0';
+    }
+    double totalAmount = oModel.totalAmount;
+    totalAmount += oModel.paymentViewModels[0].carryingCost;
+    totalAmount += oModel.paymentViewModels[0].courierCharge;
+    return totalAmount.toString();
   }
 
   Widget _summaryItem({

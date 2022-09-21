@@ -1,35 +1,52 @@
+import 'package:dogventurehq/states/models/orders.dart';
 import 'package:dogventurehq/ui/widgets/helper.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class PaymentInfo extends StatelessWidget {
-  const PaymentInfo({Key? key}) : super(key: key);
+  final OrderModel orderModel;
+  const PaymentInfo({
+    Key? key,
+    required this.orderModel,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        _buildPaymentRow(
-          prefixTxt: 'Status:',
-          suffixTxt: 'Paid',
-          suffixClr: Colors.green.shade500,
-          suffixIcon: SvgPicture.asset(
-            'assets/svgs/check.svg',
-            height: 15.h,
-            fit: BoxFit.fitHeight,
-          ),
-        ),
+        orderModel.paymentViewModels.isEmpty
+            ? _buildPaymentRow(prefixTxt: 'Status', suffixTxt: 'Unknown')
+            : _buildPaymentRow(
+                prefixTxt: 'Status:',
+                suffixTxt: orderModel.paymentViewModels[0].statusName,
+                suffixClr:
+                    orderModel.paymentViewModels[0].statusName.toLowerCase() ==
+                            'paid'
+                        ? Colors.green.shade500
+                        : null,
+                suffixIcon:
+                    orderModel.paymentViewModels[0].statusName.toLowerCase() ==
+                            'paid'
+                        ? SvgPicture.asset(
+                            'assets/svgs/check.svg',
+                            height: 15.h,
+                            fit: BoxFit.fitHeight,
+                          )
+                        : null,
+              ),
         _buildDivider(),
         _buildPaymentRow(
           prefixTxt: 'Type:',
-          suffixTxt: 'Online Payment',
+          suffixTxt: orderModel.paymentViewModels.isEmpty
+              ? 'Unknown'
+              : orderModel.paymentViewModels[0].methodName,
         ),
         _buildDivider(),
         _buildPaymentRow(
           prefixTxt: 'Total Amount:',
-          suffixTxt: 'AED 23,550',
+          suffixTxt: 'AED ${orderModel.totalAmount}',
         ),
       ],
     );

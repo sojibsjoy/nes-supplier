@@ -10,6 +10,9 @@ class BaseClient {
   }) async {
     String url = ConstantStrings.kBaseUrl + ConstantStrings.kAPIVersion + api;
     print('Sending request to: $url');
+    if (parameter != null) {
+      print("Parameter: $parameter");
+    }
     try {
       var response = await Dio().get(
         ConstantStrings.kBaseUrl + ConstantStrings.kAPIVersion + api,

@@ -1,10 +1,15 @@
+import 'package:dogventurehq/states/models/orders.dart';
 import 'package:dogventurehq/ui/widgets/helper.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class CustomerInfo extends StatelessWidget {
-  const CustomerInfo({Key? key}) : super(key: key);
+  final OrderModel orderModel;
+  const CustomerInfo({
+    Key? key,
+    required this.orderModel,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +18,7 @@ class CustomerInfo extends StatelessWidget {
       children: [
         // customer name
         Text(
-          'Md. Sojib Sarker',
+          orderModel.customerViewModel.firstLastName,
           style: TextStyle(
             fontSize: 16.sp,
             fontWeight: FontWeight.w700,
@@ -23,13 +28,13 @@ class CustomerInfo extends StatelessWidget {
         // customer address
         _buildRowTxt(
           icon: 'location',
-          txt: '117/5 Semon joyi, Rani pukur,\nSagorpara, Boalia, Rajshahi',
+          txt: orderModel.billingAddressViewModels.addressLine,
         ),
         addH(10.h),
         // customer contact number
         _buildRowTxt(
           icon: 'call',
-          txt: '+880 1716 589947',
+          txt: orderModel.customerViewModel.phoneNo,
         ),
         addH(10.h),
         // invoice number
@@ -43,7 +48,7 @@ class CustomerInfo extends StatelessWidget {
               ),
             ),
             Text(
-              '#Sc124535',
+              '#${orderModel.invoiceMasterId}',
               style: TextStyle(
                 fontSize: 10.sp,
                 fontWeight: FontWeight.w900,

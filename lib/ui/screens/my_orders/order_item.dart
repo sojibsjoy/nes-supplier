@@ -18,6 +18,7 @@ class OrderItem extends StatelessWidget {
     return InkWell(
       onTap: () => Get.toNamed(
         OrderDetails.routeName,
+        arguments: oModel,
       ),
       child: Container(
         width: 388.w,
@@ -59,7 +60,7 @@ class OrderItem extends StatelessWidget {
                 ),
                 const Spacer(),
                 Text(
-                  oModel.invoiceStatusName,
+                  oModel.status,
                   style: TextStyle(
                     color: Colors.green,
                     fontSize: 12.sp,
@@ -95,7 +96,7 @@ class OrderItem extends StatelessWidget {
                 ),
                 addW(5.w),
                 Text(
-                  oModel.customerViewModel.customerAddressViewModels[0].address,
+                  oModel.billingAddressViewModels.addressLine,
                   style: TextStyle(
                     fontSize: 12.sp,
                   ),

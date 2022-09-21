@@ -27,11 +27,20 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
     'Delivered Order',
     'Previous Order',
   ];
+
+  final List<int> _btnIds = [
+    ConstantStrings.kCurrentOrderID,
+    ConstantStrings.kNewOrderID,
+    ConstantStrings.kProcessedOrderID,
+    ConstantStrings.kDeliveredOrderID,
+    ConstantStrings.kPreviousOrderID,
+  ];
   int _selectedBtnIndex = 0;
   @override
   void initState() {
     _supplierInfo = Preference.getUserDetails();
     _orderCon.getCurrentOrders(
+      invoiceStatusID: _btnIds[0],
       supplierID: _supplierInfo.supplierId,
     );
     super.initState();
@@ -43,43 +52,45 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
       appBar: customAppBar(
         titleTxt: 'My Orders',
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            // order btn list
-            Container(
-              height: 35.h,
-              margin: EdgeInsets.only(left: 20.w, top: 20.h),
-              child: ListView.builder(
-                itemCount: 5,
-                shrinkWrap: true,
-                primary: false,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: EdgeInsets.only(right: 10.w),
-                    child: CustomBtn(
-                      onPressedFn: () {
-                        setState(
-                          () => _selectedBtnIndex = index,
-                        );
-                      },
-                      btnTxt: _btnTxts[index],
-                      btnSize: Size(140.w, 35.h),
-                      txtSize: 12.sp,
-                      btnBorderRadius: 10.r,
-                      btnColor:
-                          _selectedBtnIndex == index ? null : Colors.white,
-                      txtColor:
-                          _selectedBtnIndex == index ? null : Colors.black,
-                    ),
-                  );
-                },
-              ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          // order btn list
+          Container(
+            height: 35.h,
+            margin: EdgeInsets.only(left: 20.w, top: 20.h),
+            child: ListView.builder(
+              itemCount: 5,
+              shrinkWrap: true,
+              primary: false,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: EdgeInsets.only(right: 10.w),
+                  child: CustomBtn(
+                    onPressedFn: () {
+                      _orderCon.getCurrentOrders(
+                        invoiceStatusID: _btnIds[index],
+                        supplierID: _supplierInfo.supplierId,
+                      );
+                      setState(
+                        () => _selectedBtnIndex = index,
+                      );
+                    },
+                    btnTxt: _btnTxts[index],
+                    btnSize: Size(140.w, 35.h),
+                    txtSize: 12.sp,
+                    btnBorderRadius: 10.r,
+                    btnColor: _selectedBtnIndex == index ? null : Colors.white,
+                    txtColor: _selectedBtnIndex == index ? null : Colors.black,
+                  ),
+                );
+              },
             ),
-            // order list
-            Obx(() {
+          ),
+          // order list
+          Expanded(
+            child: Obx(() {
               if (_orderCon.currentOrdersLoading.value) {
                 return const Center(
                   child: CircularProgressIndicator(),
@@ -95,7 +106,6 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
                   return ListView.builder(
                     itemCount: _orderCon.currentOrders.length,
                     shrinkWrap: true,
-                    primary: false,
                     padding: EdgeInsets.only(top: 20.h),
                     itemBuilder: (BuildContext context, int index) {
                       return OrderItem(
@@ -106,8 +116,8 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
                 }
               }
             }),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

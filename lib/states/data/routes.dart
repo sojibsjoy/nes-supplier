@@ -46,7 +46,7 @@ class AllRoutes {
     ),
     GetPage(
       name: OrderDetails.routeName,
-      page: () => const OrderDetails(),
+      page: () => OrderDetails(),
     ),
     GetPage(
       name: ProfileScreen.routeName,

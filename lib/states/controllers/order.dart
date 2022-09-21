@@ -10,14 +10,16 @@ class OrderController extends GetxController {
   List<OrderModel> currentOrders = List.empty();
 
   void getCurrentOrders({
+    required int invoiceStatusID,
     required int supplierID,
   }) async {
     currentOrdersLoading(true);
     try {
       var response = await OrderService.getCurrentOrders(
+        invoiceStatusId: invoiceStatusID,
         supplierId: supplierID,
       );
-      currentOrders = ordersModelFromJson(jsonEncode(response));
+      currentOrders = orderModelFromJson(jsonEncode(response));
     } finally {
       currentOrdersLoading(false);
     }

@@ -13,14 +13,20 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/route_manager.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
-class HomeDrawer extends StatelessWidget {
+class HomeDrawer extends StatefulWidget {
   final SupplierModel supplierInfo;
-  HomeDrawer({
+  const HomeDrawer({
     Key? key,
     required this.supplierInfo,
   }) : super(key: key);
 
+  @override
+  State<HomeDrawer> createState() => _HomeDrawerState();
+}
+
+class _HomeDrawerState extends State<HomeDrawer> {
   final List<String> _menuIcons = [
     'home',
     'order',
@@ -30,6 +36,7 @@ class HomeDrawer extends StatelessWidget {
     'privacy',
     'logout',
   ];
+
   final List<String> _menuTitle = [
     'Home',
     'My Orders',
@@ -39,6 +46,7 @@ class HomeDrawer extends StatelessWidget {
     'Privacy Policy',
     'Log Out',
   ];
+
   final List<VoidCallback> _menuOnTapFns = [
     () => Get.back(),
     () => Get.toNamed(MyOrdersScreen.routeName),
@@ -63,6 +71,25 @@ class HomeDrawer extends StatelessWidget {
     //       },
     //     ).show(),
   ];
+
+  PackageInfo _pInfo = PackageInfo(
+    appName: 'Unknown',
+    packageName: 'Unknown',
+    version: 'Unknown',
+    buildNumber: 'Unknown',
+    buildSignature: 'Unknown',
+  );
+
+  @override
+  void initState() {
+    _initializeFn();
+    super.initState();
+  }
+
+  Future<void> _initializeFn() async {
+    PackageInfo info = await PackageInfo.fromPlatform();
+    setState(() => _pInfo = info);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +124,7 @@ class HomeDrawer extends StatelessWidget {
                         tag: 'userDP',
                         child: ClipOval(
                           child: CustomImg(
-                            imgUrl: supplierInfo.shopImage,
+                            imgUrl: widget.supplierInfo.shopImage,
                             imgWidth: 80.w,
                             imgHeight: 80.h,
                             imgFit: BoxFit.cover,
@@ -112,7 +139,7 @@ class HomeDrawer extends StatelessWidget {
                         children: [
                           // user name
                           Text(
-                            supplierInfo.shopName,
+                            widget.supplierInfo.shopName,
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 18.sp,
@@ -133,7 +160,7 @@ class HomeDrawer extends StatelessWidget {
                               addW(5.w),
                               // location details
                               Text(
-                                supplierInfo.address,
+                                widget.supplierInfo.address,
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 12.sp,
@@ -245,7 +272,7 @@ class HomeDrawer extends StatelessWidget {
                       addH(30.h),
                       // version details & copyright
                       Text(
-                        'Version 12.23.0 (15.1)',
+                        'Version ${_pInfo.version}',
                         style: TextStyle(
                           fontSize: 10.sp,
                         ),
