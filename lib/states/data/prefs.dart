@@ -29,7 +29,7 @@ class Preference {
 
   static void logOut() {
     prefs.remove(loggedInFlag);
-    // prefs.remove(userDetails);
+    prefs.remove(userDetails);
   }
 
   static void clearAll() {

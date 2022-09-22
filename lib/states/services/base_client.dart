@@ -7,8 +7,10 @@ class BaseClient {
   static Future<dynamic> getData({
     required String api,
     dynamic parameter,
+    String? apiVersion,
   }) async {
-    String url = ConstantStrings.kBaseUrl + ConstantStrings.kAPIVersion + api;
+    String apiV = apiVersion ?? ConstantStrings.kAPIVersion;
+    String url = ConstantStrings.kBaseUrl + apiV + api;
     print('Sending request to: $url');
     if (parameter != null) {
       print("Parameter: $parameter");
@@ -30,13 +32,15 @@ class BaseClient {
   static Future<dynamic> postData({
     required String api,
     required dynamic body,
+    String? apiVersion,
   }) async {
+    String apiV = apiVersion ?? ConstantStrings.kAPIVersion;
     String url = ConstantStrings.kBaseUrl + ConstantStrings.kAPIVersion + api;
     print('Sending request to: $url');
     log("Post Body: $body");
     try {
       var response = await Dio().post(
-        ConstantStrings.kBaseUrl + ConstantStrings.kAPIVersion + api,
+        ConstantStrings.kBaseUrl + apiV + api,
         data: body,
       );
       print('POST Method: ${response.statusCode}');

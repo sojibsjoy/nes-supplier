@@ -1,4 +1,4 @@
-import 'package:dogventurehq/states/models/products.dart';
+import 'package:dogventurehq/states/models/product.dart';
 import 'package:dogventurehq/ui/screens/home/product_item.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';

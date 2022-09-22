@@ -1,10 +1,12 @@
 class ConstantStrings {
+  //SupplierId=10185 (Rezaul Islam)
   static String kBaseUrl = 'http://g3.okommerce.com/api/';
   static String kAPIVersion = 'v1/';
   static String kSupplierLogin = 'supplier-login';
-  static String kProductsFilter =
-      'Products-filter'; //SupplierId=10185 (Rezaul Islam)
+  static String kProductsFilter = 'Products-filter';
   static String kGetOrderByStatusID = 'get-order-by-invoicestatusid';
+  static String kUpdateSupplier = 'update-supplier';
+  static String kDriverList = 'driver-list';
 
   // error msgs
   static String kWentWrong = 'Something went wrong';

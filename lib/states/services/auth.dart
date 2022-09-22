@@ -16,4 +16,15 @@ class AuthService {
     );
     return response;
   }
+
+  // Login Function
+  static Future<dynamic> updateProfile({
+    required dynamic payload,
+  }) async {
+    var response = await BaseClient.postData(
+      api: ConstantStrings.kUpdateSupplier,
+      body: payload,
+    );
+    return response;
+  }
 }

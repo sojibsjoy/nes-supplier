@@ -1,28 +1,31 @@
-import 'package:country_pickers/country.dart';
-import 'package:country_pickers/country_pickers.dart';
+import 'package:dogventurehq/states/controllers/auth.dart';
 import 'package:dogventurehq/states/data/prefs.dart';
 import 'package:dogventurehq/states/models/supplier.dart';
+import 'package:dogventurehq/states/utils/methods.dart';
 import 'package:dogventurehq/ui/designs/custom_appbar.dart';
 import 'package:dogventurehq/ui/designs/custom_btn.dart';
+import 'package:dogventurehq/ui/screens/home/home.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:dogventurehq/ui/widgets/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 
-class AddAddressScreen extends StatefulWidget {
+class EditAddressScreen extends StatefulWidget {
   static String routeName = '/add_address';
-  const AddAddressScreen({Key? key}) : super(key: key);
+  const EditAddressScreen({Key? key}) : super(key: key);
 
   @override
-  State<AddAddressScreen> createState() => _AddAddressScreenState();
+  State<EditAddressScreen> createState() => _EditAddressScreenState();
 }
 
-class _AddAddressScreenState extends State<AddAddressScreen> {
+class _EditAddressScreenState extends State<EditAddressScreen> {
+  final AuthController _authCon = Get.find<AuthController>();
   final TextEditingController _nameCon = TextEditingController();
   final TextEditingController _emailCon = TextEditingController();
   final TextEditingController _phoneNoCon = TextEditingController();
   final TextEditingController _addressCon = TextEditingController();
-  Country? _selectedCountry;
+  // Country? _selectedCountry;
   late SupplierModel _supplierInfo;
 
   @override
@@ -32,6 +35,11 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
     _emailCon.text = _supplierInfo.email;
     _phoneNoCon.text = _supplierInfo.mobile;
     _addressCon.text = _supplierInfo.address;
+    _authCon.isUpdating.listen((value) {
+      if (!value && _authCon.isUpdated.value) {
+        Get.offAllNamed(HomeScreen.routeName);
+      }
+    });
     super.initState();
   }
 
@@ -39,7 +47,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: customAppBar(
-        titleTxt: 'Add New Address',
+        titleTxt: 'Edit Address',
         noSuffixIcon: true,
       ),
       body: Padding(
@@ -56,36 +64,37 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
             _fieldTitle(icon: 'call', title: 'Mobile Number'),
             Row(
               children: [
-                if (true)
-                  CountryPickerDropdown(
-                    itemBuilder: (country) => Row(
-                      children: [
-                        SizedBox(
-                          width: 20.w,
-                          height: 20.h,
-                          child: CountryPickerUtils.getDefaultFlagImage(
-                            country,
-                          ),
-                        ),
-                        addW(10.w),
-                        Text(
-                          "+${country.phoneCode}",
-                          style: TextStyle(
-                            fontSize: 12.sp,
-                          ),
-                        ),
-                      ],
-                    ),
-                    onValuePicked: (country) => setState(
-                      () => _selectedCountry = country,
-                    ),
-                  ),
-                Container(
-                  width: 1,
-                  height: 20,
-                  margin: EdgeInsets.only(right: 5.w),
-                  color: Colors.grey,
-                ),
+                // TODO: uncomment below code if country code field is available in the api
+                // if (true)
+                //   CountryPickerDropdown(
+                //     itemBuilder: (country) => Row(
+                //       children: [
+                //         SizedBox(
+                //           width: 20.w,
+                //           height: 20.h,
+                //           child: CountryPickerUtils.getDefaultFlagImage(
+                //             country,
+                //           ),
+                //         ),
+                //         addW(10.w),
+                //         Text(
+                //           "+${country.phoneCode}",
+                //           style: TextStyle(
+                //             fontSize: 12.sp,
+                //           ),
+                //         ),
+                //       ],
+                //     ),
+                //     onValuePicked: (country) => setState(
+                //       () => _selectedCountry = country,
+                //     ),
+                //   ),
+                // Container(
+                //   width: 1,
+                //   height: 20,
+                //   margin: EdgeInsets.only(right: 5.w),
+                //   color: Colors.grey,
+                // ),
                 Expanded(
                   child: _txtField(
                     textCon: _phoneNoCon,
@@ -102,7 +111,35 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
             ),
             addH(20.h),
             CustomBtn(
-              onPressedFn: () {},
+              onPressedFn: () {
+                if (_nameCon.text.isEmpty ||
+                    _emailCon.text.isEmpty ||
+                    _phoneNoCon.text.isEmpty ||
+                    _addressCon.text.isEmpty) {
+                  Methods.showSnackbar(
+                    msg: "Please fill all the fields.",
+                  );
+                  return;
+                }
+                if (!_emailCon.text.isEmail) {
+                  Methods.showSnackbar(
+                    msg: "Please enter a valid email address.",
+                  );
+                  return;
+                }
+                if (_phoneNoCon.text.length < 6) {
+                  Methods.showSnackbar(
+                    msg: "Please enter a valid mobile number.",
+                  );
+                  return;
+                }
+                SupplierModel sModel = _supplierInfo;
+                sModel.supplierName = _nameCon.text;
+                sModel.email = _emailCon.text;
+                sModel.mobile = _phoneNoCon.text;
+                sModel.address = _addressCon.text;
+                _authCon.updateProfile(sModel: sModel);
+              },
               btnTxt: 'Submit',
               btnSize: Size(295.w, 45.h),
             ),

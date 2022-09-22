@@ -1,11 +1,15 @@
 import 'package:dogventurehq/constants/strings.dart';
-import 'package:dogventurehq/states/models/orders.dart';
+import 'package:dogventurehq/states/controllers/order.dart';
+import 'package:dogventurehq/states/data/prefs.dart';
+import 'package:dogventurehq/states/models/order.dart';
+import 'package:dogventurehq/states/models/supplier.dart';
 import 'package:dogventurehq/ui/designs/custom_appbar.dart';
 import 'package:dogventurehq/ui/designs/custom_btn.dart';
 import 'package:dogventurehq/ui/designs/custom_txt_btn.dart';
 import 'package:dogventurehq/ui/screens/home/product_item.dart';
 import 'package:dogventurehq/ui/screens/order_details/customer_info.dart';
 import 'package:dogventurehq/ui/screens/order_details/details_con.dart';
+import 'package:dogventurehq/ui/screens/order_details/driver_dialog.dart';
 import 'package:dogventurehq/ui/screens/order_details/payment_info.dart';
 import 'package:dogventurehq/ui/screens/products/products.dart';
 import 'package:dogventurehq/ui/widgets/helper.dart';
@@ -13,11 +17,27 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class OrderDetails extends StatelessWidget {
+class OrderDetails extends StatefulWidget {
   static String routeName = '/order_details';
-  OrderDetails({Key? key}) : super(key: key);
+  const OrderDetails({Key? key}) : super(key: key);
 
+  @override
+  State<OrderDetails> createState() => _OrderDetailsState();
+}
+
+class _OrderDetailsState extends State<OrderDetails> {
+  final OrderController _orderCon = Get.find<OrderController>();
+  late SupplierModel _supplierInfo;
   final OrderModel oModel = Get.arguments;
+
+  @override
+  void initState() {
+    _supplierInfo = Preference.getUserDetails();
+    _orderCon.getDriverList(
+      supplierID: _supplierInfo.supplierId,
+    );
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -160,7 +180,7 @@ class OrderDetails extends StatelessWidget {
               children: [
                 CustomBtn(
                   onPressedFn: () {},
-                  btnTxt: 'Deliverd',
+                  btnTxt: 'Delivered',
                   btnSize: Size(177.w, 52.h),
                 ),
                 CustomBtn(
@@ -177,7 +197,17 @@ class OrderDetails extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 CustomBtn(
-                  onPressedFn: () {},
+                  onPressedFn: () => showModalBottomSheet(
+                    context: context,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(10.r),
+                      ),
+                    ),
+                    builder: (_) => DriverDialog(
+                      oCon: _orderCon,
+                    ),
+                  ),
                   btnTxt: 'Forward to driver',
                   btnSize: Size(177.w, 52.h),
                   btnColor: Colors.red.shade900,

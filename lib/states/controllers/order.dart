@@ -1,27 +1,44 @@
 import 'dart:convert';
 
-import 'package:dogventurehq/states/models/orders.dart';
+import 'package:dogventurehq/states/models/driver.dart';
+import 'package:dogventurehq/states/models/order.dart';
 import 'package:dogventurehq/states/services/order.dart';
 import 'package:get/get.dart';
 
 class OrderController extends GetxController {
-  RxBool currentOrdersLoading = true.obs;
+  RxBool ordersLoading = true.obs;
+  RxBool driverLoading = true.obs;
 
-  List<OrderModel> currentOrders = List.empty();
+  List<OrderModel> orderList = List.empty();
+  List<DriverModel> driverList = List.empty();
 
   void getCurrentOrders({
     required int invoiceStatusID,
     required int supplierID,
   }) async {
-    currentOrdersLoading(true);
+    ordersLoading(true);
     try {
       var response = await OrderService.getCurrentOrders(
         invoiceStatusId: invoiceStatusID,
         supplierId: supplierID,
       );
-      currentOrders = orderModelFromJson(jsonEncode(response));
+      orderList = orderModelFromJson(jsonEncode(response));
     } finally {
-      currentOrdersLoading(false);
+      ordersLoading(false);
+    }
+  }
+
+  void getDriverList({
+    required int supplierID,
+  }) async {
+    driverLoading(true);
+    try {
+      var response = await OrderService.getDriverList(
+        supplierId: supplierID,
+      );
+      driverList = driverModelFromJson(jsonEncode(response));
+    } finally {
+      driverLoading(false);
     }
   }
 }

@@ -16,4 +16,16 @@ class OrderService {
     );
     return response;
   }
+
+  static Future<dynamic> getDriverList({
+    required int supplierId,
+  }) async {
+    var response = await BaseClient.getData(
+      api: ConstantStrings.kDriverList,
+      parameter: {
+        "supplierId": '$supplierId',
+      },
+    );
+    return response;
+  }
 }

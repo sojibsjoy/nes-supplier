@@ -13,6 +13,7 @@ class CustomField extends StatefulWidget {
   Color? fillClr;
   Color? brdrClr;
   double? txtSize;
+  int? maxLine;
   CustomField({
     Key? key,
     required this.textCon,
@@ -26,6 +27,7 @@ class CustomField extends StatefulWidget {
     this.fillClr,
     this.brdrClr,
     this.txtSize,
+    this.maxLine,
   }) : super(key: key);
 
   @override
@@ -47,6 +49,7 @@ class _CustomFieldState extends State<CustomField> {
       width: widget.width ?? 388.w,
       height: widget.height ?? 50.h,
       child: TextField(
+        maxLines: widget.maxLine,
         style: TextStyle(
           fontSize: widget.txtSize ?? 16.sp,
           fontWeight: widget.txtFontWeight ?? FontWeight.normal,

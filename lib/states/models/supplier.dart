@@ -3,7 +3,10 @@ import 'dart:convert';
 SupplierModel supplierModelFromJson(String str) =>
     SupplierModel.fromJson(json.decode(str));
 
-String supplierModelToJson(SupplierModel data) => json.encode(data.toJson());
+String supplierModelToJson(SupplierModel data, {bool? noShopImage}) =>
+    json.encode(
+      data.toJson(noShopImage: noShopImage),
+    );
 
 class SupplierModel {
   SupplierModel({
@@ -59,12 +62,15 @@ class SupplierModel {
         branchName: json["branchName"],
         bankRoutingNo: json["bankRoutingNo"],
         bankAccountNo: json["bankAccountNo"],
-        shopName: json["shopName"],
-        shopImage: json["shopImage"],
-        supplierNumber: json["supplierNumber"],
+        shopName: json["shopName"] ?? '',
+        shopImage: json["shopImage"] ?? '',
+        supplierNumber: json["supplierNumber"] ?? '',
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson({
+    bool? noShopImage,
+  }) =>
+      {
         "supplierId": supplierId,
         "supplierName": supplierName,
         "mobile": mobile,
@@ -80,7 +86,7 @@ class SupplierModel {
         "bankRoutingNo": bankRoutingNo,
         "bankAccountNo": bankAccountNo,
         "shopName": shopName,
-        "shopImage": shopImage,
+        if (noShopImage == null) "shopImage": shopImage,
         "supplierNumber": supplierNumber,
       };
 }

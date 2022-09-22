@@ -91,12 +91,12 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
           // order list
           Expanded(
             child: Obx(() {
-              if (_orderCon.currentOrdersLoading.value) {
+              if (_orderCon.ordersLoading.value) {
                 return const Center(
                   child: CircularProgressIndicator(),
                 );
               } else {
-                if (_orderCon.currentOrders.isEmpty) {
+                if (_orderCon.orderList.isEmpty) {
                   return Center(
                     child: Text(
                       ConstantStrings.kNoData,
@@ -104,12 +104,12 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
                   );
                 } else {
                   return ListView.builder(
-                    itemCount: _orderCon.currentOrders.length,
+                    itemCount: _orderCon.orderList.length,
                     shrinkWrap: true,
                     padding: EdgeInsets.only(top: 20.h),
                     itemBuilder: (BuildContext context, int index) {
                       return OrderItem(
-                        oModel: _orderCon.currentOrders[index],
+                        oModel: _orderCon.orderList[index],
                       );
                     },
                   );

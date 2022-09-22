@@ -1,4 +1,4 @@
-import 'package:dogventurehq/states/models/products.dart';
+import 'package:dogventurehq/states/models/product.dart';
 import 'package:dogventurehq/states/services/product.dart';
 import 'package:get/get.dart';
 

@@ -8,6 +8,9 @@ class AuthController extends GetxController {
   RxBool isLoggingIn = true.obs;
   RxBool isLoggedIn = false.obs;
 
+  RxBool isUpdating = true.obs;
+  RxBool isUpdated = false.obs;
+
   SupplierModel? supplier;
 
   void login({
@@ -30,6 +33,26 @@ class AuthController extends GetxController {
     } finally {
       Methods.hideLoading();
       isLoggingIn(false);
+    }
+  }
+
+  void updateProfile({
+    required SupplierModel sModel,
+  }) async {
+    isUpdating(true);
+    Methods.showLoading();
+    try {
+      var response = await AuthService.updateProfile(
+        payload: sModel.toJson(noShopImage: true),
+      );
+      supplier = SupplierModel.fromJson(response);
+      if (supplier != null) {
+        isUpdated(true);
+        Preference.setUserDetails(supplier!);
+      }
+    } finally {
+      Methods.hideLoading();
+      isUpdating(false);
     }
   }
 }

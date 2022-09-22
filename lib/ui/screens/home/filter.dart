@@ -1,9 +1,9 @@
 import 'package:dogventurehq/ui/designs/custom_btn.dart';
 import 'package:dogventurehq/ui/designs/custom_txt_btn.dart';
+import 'package:dogventurehq/ui/widgets/dialog_titlebar.dart';
 import 'package:dogventurehq/ui/widgets/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 class Filter extends StatefulWidget {
@@ -44,37 +44,18 @@ class _FilterState extends State<Filter> {
       child: Column(
         children: [
           // title bar
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              InkWell(
-                onTap: _nextFlag
-                    ? () => setState(
-                          () => _nextFlag = false,
-                        )
-                    : () => Get.back(),
-                splashColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-                child: Center(
-                  child: SvgPicture.asset(
-                    'assets/svgs/back.svg',
-                    width: 25.w,
-                    fit: BoxFit.fitWidth,
-                  ),
-                ),
-              ),
-              Text(
-                "Filter",
-                style: TextStyle(
-                  fontSize: 22.sp,
-                ),
-              ),
-              CustomTxtBtn(
-                onTapFn: () {},
-                text: 'clear all',
-                txtSize: 12.sp,
-              ),
-            ],
+          DialogTitleBar(
+            prefixOnTapFn: _nextFlag
+                ? () => setState(
+                      () => _nextFlag = false,
+                    )
+                : () => Get.back(),
+            title: 'Filter',
+            suffixWidget: CustomTxtBtn(
+              onTapFn: () {},
+              text: 'clear all',
+              txtSize: 12.sp,
+            ),
           ),
           addH(20.h),
           _nextFlag
