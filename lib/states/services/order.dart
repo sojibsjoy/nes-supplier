@@ -28,4 +28,14 @@ class OrderService {
     );
     return response;
   }
+
+  static Future<dynamic> forwardToTheDriver({
+    required dynamic payload,
+  }) async {
+    var response = await BaseClient.postData(
+      api: ConstantStrings.kShippedToTheDriver,
+      body: payload,
+    );
+    return response;
+  }
 }

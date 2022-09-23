@@ -8,22 +8,22 @@ String orderShippingModelToJson(OrderShippingModel data) =>
 
 class OrderShippingModel {
   OrderShippingModel({
-    required this.driverShipmentId,
+    this.driverShipmentId,
     required this.driverId,
     required this.shipmentDate,
     required this.note,
-    required this.createdAt,
-    required this.createBy,
+    //  this.createdAt,
+    this.createBy,
     required this.invoiceStatusId,
     required this.driversOrderViewModels,
   });
 
-  int driverShipmentId;
+  int? driverShipmentId;
   int driverId;
   DateTime shipmentDate;
   String note;
-  DateTime createdAt;
-  int createBy;
+  // DateTime? createdAt;
+  int? createBy;
   int invoiceStatusId;
   List<DriversOrderViewModel> driversOrderViewModels;
 
@@ -33,8 +33,8 @@ class OrderShippingModel {
         driverId: json["driverId"],
         shipmentDate: DateTime.parse(json["shipmentDate"]),
         note: json["note"],
-        createdAt: DateTime.parse(json["createdAt"]),
-        createBy: json["createBy"],
+        // createdAt: json["createdAt"],
+        createBy: json["createBy"] ?? 0,
         invoiceStatusId: json["invoiceStatusId"],
         driversOrderViewModels: List<DriversOrderViewModel>.from(
             json["driversOrderViewModels"]
@@ -42,12 +42,12 @@ class OrderShippingModel {
       );
 
   Map<String, dynamic> toJson() => {
-        "driverShipmentId": driverShipmentId,
+        // "driverShipmentId": driverShipmentId,
         "driverId": driverId,
         "shipmentDate": shipmentDate.toIso8601String(),
         "note": note,
-        "createdAt": createdAt.toIso8601String(),
-        "createBy": createBy,
+        // "createdAt": createdAt.toIso8601String(),
+        // "createBy": createBy,
         "invoiceStatusId": invoiceStatusId,
         "driversOrderViewModels":
             List<dynamic>.from(driversOrderViewModels.map((x) => x.toJson())),
@@ -56,25 +56,25 @@ class OrderShippingModel {
 
 class DriversOrderViewModel {
   DriversOrderViewModel({
-    required this.driversOrderId,
-    required this.driverShipmentId,
+    this.driversOrderId,
+    this.driverShipmentId,
     required this.invoiceId,
   });
 
-  int driversOrderId;
-  int driverShipmentId;
+  int? driversOrderId;
+  int? driverShipmentId;
   int invoiceId;
 
   factory DriversOrderViewModel.fromJson(Map<String, dynamic> json) =>
       DriversOrderViewModel(
         driversOrderId: json["driversOrderId"],
-        driverShipmentId: json["driverShipmentId"],
+        driverShipmentId: json["driverShipmentId"] ?? 0,
         invoiceId: json["invoiceId"],
       );
 
   Map<String, dynamic> toJson() => {
-        "driversOrderId": driversOrderId,
-        "driverShipmentId": driverShipmentId,
+        // "driversOrderId": driversOrderId,
+        // "driverShipmentId": driverShipmentId,
         "invoiceId": invoiceId,
       };
 }

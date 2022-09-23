@@ -2,15 +2,19 @@ import 'dart:convert';
 
 import 'package:dogventurehq/states/models/driver.dart';
 import 'package:dogventurehq/states/models/order.dart';
+import 'package:dogventurehq/states/models/order_shipping.dart';
 import 'package:dogventurehq/states/services/order.dart';
+import 'package:dogventurehq/states/utils/methods.dart';
 import 'package:get/get.dart';
 
 class OrderController extends GetxController {
   RxBool ordersLoading = true.obs;
   RxBool driverLoading = true.obs;
+  RxBool orderShippedLoading = true.obs;
 
   List<OrderModel> orderList = List.empty();
   List<DriverModel> driverList = List.empty();
+  OrderShippingModel? orderShippingModel;
 
   void getCurrentOrders({
     required int invoiceStatusID,
@@ -39,6 +43,25 @@ class OrderController extends GetxController {
       driverList = driverModelFromJson(jsonEncode(response));
     } finally {
       driverLoading(false);
+    }
+  }
+
+  void forwardToDriver({
+    required OrderShippingModel oShippedModel,
+  }) async {
+    orderShippedLoading(true);
+    Methods.showLoading();
+    try {
+      var response = await OrderService.forwardToTheDriver(
+        payload: oShippedModel.toJson(),
+      );
+      orderShippingModel = orderShippingModelFromJson(jsonEncode(response));
+      // if (orderShippingModel != null) {
+      //   print(orderShippingModel!.driverShipmentId);
+      // }
+    } finally {
+      Methods.hideLoading();
+      orderShippedLoading(false);
     }
   }
 }

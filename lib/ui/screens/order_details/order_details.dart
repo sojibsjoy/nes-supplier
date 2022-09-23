@@ -3,6 +3,7 @@ import 'package:dogventurehq/states/controllers/order.dart';
 import 'package:dogventurehq/states/data/prefs.dart';
 import 'package:dogventurehq/states/models/order.dart';
 import 'package:dogventurehq/states/models/supplier.dart';
+import 'package:dogventurehq/states/utils/methods.dart';
 import 'package:dogventurehq/ui/designs/custom_appbar.dart';
 import 'package:dogventurehq/ui/designs/custom_btn.dart';
 import 'package:dogventurehq/ui/designs/custom_txt_btn.dart';
@@ -44,6 +45,7 @@ class _OrderDetailsState extends State<OrderDetails> {
     return Scaffold(
       appBar: customAppBar(
         titleTxt: 'Order Details',
+        noSuffixIcon: true,
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -179,9 +181,25 @@ class _OrderDetailsState extends State<OrderDetails> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 CustomBtn(
-                  onPressedFn: () {},
+                  onPressedFn: () {
+                    if (oModel.invoiceViewModels[0].invoiceStatusId ==
+                        ConstantStrings.kDeliveredOrderID) {
+                      Methods.showSnackbar(
+                        msg: "Order already delivered!",
+                      );
+                      return;
+                    }
+                  },
                   btnTxt: 'Delivered',
                   btnSize: Size(177.w, 52.h),
+                  txtColor: oModel.invoiceViewModels[0].invoiceStatusId ==
+                          ConstantStrings.kDeliveredOrderID
+                      ? Colors.grey.shade300
+                      : null,
+                  btnColor: oModel.invoiceViewModels[0].invoiceStatusId ==
+                          ConstantStrings.kDeliveredOrderID
+                      ? Colors.grey.shade500
+                      : null,
                 ),
                 CustomBtn(
                   onPressedFn: () {},
@@ -205,6 +223,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                       ),
                     ),
                     builder: (_) => DriverDialog(
+                      orderModel: oModel,
                       oCon: _orderCon,
                     ),
                   ),

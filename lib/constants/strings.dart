@@ -7,6 +7,8 @@ class ConstantStrings {
   static String kGetOrderByStatusID = 'get-order-by-invoicestatusid';
   static String kUpdateSupplier = 'update-supplier';
   static String kDriverList = 'driver-list';
+  static String kShippedToTheDriver = 'shipedToTheDriver';
+  static String kWebHtml = 'web-html/Privacy-Policy/4';
 
   // error msgs
   static String kWentWrong = 'Something went wrong';

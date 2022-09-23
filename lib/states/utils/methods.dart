@@ -26,7 +26,10 @@ class Methods {
 
   static void showLoading() {
     if (!EasyLoading.isShow) {
-      EasyLoading.show(status: 'Loading...');
+      EasyLoading.show(
+        status: 'Loading...',
+        dismissOnTap: false,
+      );
     }
   }
 

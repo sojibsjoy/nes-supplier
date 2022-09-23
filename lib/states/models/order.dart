@@ -282,6 +282,7 @@ class InvoiceViewModel {
     required this.supplierId,
     required this.storeId,
     required this.status,
+    required this.invoiceStatusId,
     required this.amountToSupplier,
     required this.amountToAdmin,
     required this.totalProduct,
@@ -299,6 +300,7 @@ class InvoiceViewModel {
   int supplierId;
   int storeId;
   String status;
+  int invoiceStatusId;
   double amountToSupplier;
   double amountToAdmin;
   int totalProduct;
@@ -317,6 +319,7 @@ class InvoiceViewModel {
         supplierId: json["supplierId"],
         storeId: json["storeId"],
         status: json["status"],
+        invoiceStatusId: json["invoiceStatusId"],
         amountToSupplier: json["amountToSupplier"].toDouble(),
         amountToAdmin: json["amountToAdmin"].toDouble(),
         totalProduct: json["totalProduct"],

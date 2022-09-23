@@ -1,5 +1,6 @@
 import 'package:dogventurehq/states/controllers/order.dart';
 import 'package:dogventurehq/states/models/driver.dart';
+import 'package:dogventurehq/states/models/order.dart';
 import 'package:dogventurehq/states/models/order_shipping.dart';
 import 'package:dogventurehq/states/utils/methods.dart';
 import 'package:dogventurehq/ui/designs/custom_btn.dart';
@@ -11,9 +12,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class DriverDialog extends StatefulWidget {
+  final OrderModel orderModel;
   final OrderController oCon;
   const DriverDialog({
     Key? key,
+    required this.orderModel,
     required this.oCon,
   }) : super(key: key);
 
@@ -26,6 +29,23 @@ class _DriverDialogState extends State<DriverDialog> {
   bool _nextFlag = false;
   int _selectedDriverIndex = -1;
   DriverModel? _selectedDriver;
+  @override
+  void initState() {
+    super.initState();
+    widget.oCon.orderShippedLoading.listen((value) {
+      if (!value && widget.oCon.orderShippingModel != null) {
+        print("hello");
+        Get.back();
+        Methods.showSnackbar(
+          title: "Order Forwarded!",
+          msg: "Order successfully forwarded to the driver.",
+          icon: Icons.check_circle,
+          position: SnackPosition.TOP,
+        );
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -97,16 +117,22 @@ class _DriverDialogState extends State<DriverDialog> {
               CustomBtn(
                 onPressedFn: _nextFlag
                     ? () {
-                        // OrderShippingModel oShippingModel = OrderShippingModel(
-                        //   driverShipmentId: _selectedDriver. ,
-                        //   driverId: driverId,
-                        //   shipmentDate: shipmentDate,
-                        //   note: note,
-                        //   createdAt: createdAt,
-                        //   createBy: createBy,
-                        //   invoiceStatusId: invoiceStatusId,
-                        //   driversOrderViewModels: driversOrderViewModels,
-                        // );
+                        OrderShippingModel oShippingModel = OrderShippingModel(
+                            driverId: _selectedDriver!.driverId,
+                            shipmentDate: DateTime.now(),
+                            note: _noteCon.text,
+                            invoiceStatusId: widget.orderModel
+                                .invoiceViewModels[0].invoiceStatusId,
+                            driversOrderViewModels: [
+                              DriversOrderViewModel(
+                                invoiceId: widget
+                                    .orderModel.invoiceViewModels[0].invoiceId,
+                              ),
+                            ]);
+                        widget.oCon.forwardToDriver(
+                          oShippedModel: oShippingModel,
+                        );
+                        // print(oShippingModel.toJson().toString());
                         // Get.back();
                       }
                     : () {

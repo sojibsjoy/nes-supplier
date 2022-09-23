@@ -52,7 +52,9 @@ class OrderItem extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  '#${oModel.refNumber}',
+                  oModel.invoiceViewModels.isEmpty
+                      ? ''
+                      : '#${oModel.invoiceViewModels[0].refNumber}',
                   style: TextStyle(
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w900,

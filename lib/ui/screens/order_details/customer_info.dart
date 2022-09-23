@@ -38,8 +38,9 @@ class CustomerInfo extends StatelessWidget {
         ),
         addH(10.h),
         // invoice number
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Text(
               'Invoice Number: ',
@@ -48,7 +49,9 @@ class CustomerInfo extends StatelessWidget {
               ),
             ),
             Text(
-              '#${orderModel.invoiceMasterId}',
+              orderModel.invoiceViewModels.isEmpty
+                  ? ''
+                  : '#${orderModel.invoiceViewModels[0].refNumber}',
               style: TextStyle(
                 fontSize: 10.sp,
                 fontWeight: FontWeight.w900,
