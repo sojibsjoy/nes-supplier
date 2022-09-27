@@ -1,5 +1,9 @@
+import 'dart:io';
+
+import 'package:dogventurehq/states/controllers/auth.dart';
 import 'package:dogventurehq/states/data/prefs.dart';
 import 'package:dogventurehq/states/models/supplier.dart';
+import 'package:dogventurehq/states/utils/methods.dart';
 import 'package:dogventurehq/ui/designs/custom_img.dart';
 import 'package:dogventurehq/ui/designs/menu_item.dart';
 import 'package:dogventurehq/ui/screens/edit_address/edit_address.dart';
@@ -7,11 +11,13 @@ import 'package:dogventurehq/ui/screens/profile/summary_con.dart';
 import 'package:dogventurehq/ui/widgets/floating_btn.dart';
 import 'package:dogventurehq/ui/widgets/helper.dart';
 import 'package:dogventurehq/ui/widgets/nav_bar.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ProfileScreen extends StatefulWidget {
   static String routeName = '/profile';
@@ -22,10 +28,14 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  final AuthController _authCon = Get.find<AuthController>();
   bool _acceptingOrdersFlag = false;
   bool _enableOTPFlag = false;
   bool _notificationFlag = false;
+  final bool _dpUpdating = false;
   late SupplierModel _supplierInfo;
+  File? _dp;
+
   @override
   void initState() {
     _supplierInfo = Preference.getUserDetails();
@@ -81,17 +91,58 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             Hero(
                               tag: 'userDP',
                               child: ClipOval(
-                                child: CustomImg(
-                                  imgUrl: _supplierInfo.shopImage,
-                                  imgWidth: 115.w,
-                                  imgHeight: 115.h,
-                                  imgFit: BoxFit.cover,
-                                ),
+                                child: _dp == null
+                                    ? CustomImg(
+                                        imgUrl: _supplierInfo.shopImage,
+                                        imgWidth: 115.w,
+                                        imgHeight: 115.h,
+                                        imgFit: BoxFit.cover,
+                                      )
+                                    : Obx(
+                                        () {
+                                          if (_authCon.dpUploading.value) {
+                                            return const Center(
+                                              child:
+                                                  CircularProgressIndicator(),
+                                            );
+                                          } else {
+                                            return Image.file(
+                                              _dp!,
+                                              width: 115.w,
+                                              height: 115.h,
+                                              fit: BoxFit.cover,
+                                            );
+                                          }
+                                        },
+                                      ),
                               ),
                             ),
                             // photo uploading btn
                             InkWell(
-                              onTap: () => print('photo upload btn pressed...'),
+                              onTap: () {
+                                showGeneralDialog(
+                                  context: context,
+                                  barrierColor: Colors.black.withOpacity(0.8),
+                                  transitionDuration:
+                                      const Duration(milliseconds: 300),
+                                  pageBuilder: (context, anim1, anim2) {
+                                    return Methods.buildDPAlertDialog(
+                                      onPressedFn: pickImage,
+                                      ctx: context,
+                                    );
+                                  },
+                                  transitionBuilder:
+                                      (context, anim1, anim2, child) {
+                                    return SlideTransition(
+                                      position: Tween(
+                                        begin: const Offset(0, 1),
+                                        end: const Offset(0, 0),
+                                      ).animate(anim1),
+                                      child: child,
+                                    );
+                                  },
+                                );
+                              },
                               splashColor: Colors.transparent,
                               highlightColor: Colors.transparent,
                               child: Container(
@@ -168,23 +219,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ),
               child: Column(
+                // profile items
                 children: [
-                  // profile items
+                  // name
                   CustomMenuItem(
                     icon: 'person',
                     title: 'Name',
                     suffixTxt: _supplierInfo.supplierName,
                   ),
+                  // email
                   CustomMenuItem(
                     icon: 'email',
                     title: 'Email',
                     suffixTxt: _supplierInfo.email,
                   ),
+                  // mobile
                   CustomMenuItem(
                     icon: 'phone',
                     title: 'Mobile',
                     suffixTxt: _supplierInfo.mobile,
                   ),
+                  // accepting orders
                   CustomMenuItem(
                     icon: 'accepting_order',
                     title: 'Accepting Orders',
@@ -200,6 +255,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ),
                   ),
+                  // enable otp
                   CustomMenuItem(
                     icon: 'otp',
                     title: 'Enable OTP',
@@ -215,6 +271,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ),
                   ),
+                  // receive notification via email
                   CustomMenuItem(
                     icon: 'bell',
                     title: 'Receive Notifications via Email',
@@ -230,6 +287,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ),
                   ),
+                  // address
                   CustomMenuItem(
                     onTapFn: () => Get.toNamed(
                       EditAddressScreen.routeName,
@@ -273,5 +331,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
       floatingActionButton: const FloatingBtn(),
       bottomNavigationBar: const NavBar(),
     );
+  }
+
+  Future<void> pickImage(bool galleryFlag) async {
+    XFile? image;
+    print("object");
+    try {
+      if (galleryFlag) {
+        image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      } else {
+        image = await ImagePicker().pickImage(
+          source: ImageSource.camera,
+          maxHeight: 800,
+          maxWidth: 600,
+        );
+      }
+      if (image == null) return;
+      _authCon.updateUserDP(
+        supplierID: _supplierInfo.supplierId,
+        imageFile: File(image.path),
+      );
+      setState(
+        () => _dp = File(image!.path),
+      );
+    } on PlatformException catch (e) {
+      Methods.showSnackbar(msg: 'Failed to pick image: $e');
+    }
   }
 }

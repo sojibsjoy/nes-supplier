@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dogventurehq/states/data/prefs.dart';
 import 'package:dogventurehq/states/models/supplier.dart';
 import 'package:dogventurehq/states/services/auth.dart';
@@ -10,6 +12,8 @@ class AuthController extends GetxController {
 
   RxBool isUpdating = true.obs;
   RxBool isUpdated = false.obs;
+
+  RxBool dpUploading = false.obs;
 
   SupplierModel? supplier;
 
@@ -53,6 +57,25 @@ class AuthController extends GetxController {
     } finally {
       Methods.hideLoading();
       isUpdating(false);
+    }
+  }
+
+  void updateUserDP({
+    required int supplierID,
+    required File imageFile,
+  }) async {
+    dpUploading(true);
+    try {
+      var response = await AuthService.uploadUserDp(
+        supplierId: supplierID,
+        file: imageFile,
+      );
+      supplier = SupplierModel.fromJson(response);
+      if (supplier != null) {
+        Preference.setUserDetails(supplier!);
+      }
+    } finally {
+      dpUploading(false);
     }
   }
 }

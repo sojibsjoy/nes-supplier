@@ -1,4 +1,6 @@
 import 'package:dogventurehq/states/controllers/product.dart';
+import 'package:dogventurehq/states/data/prefs.dart';
+import 'package:dogventurehq/states/models/supplier.dart';
 import 'package:dogventurehq/ui/designs/custom_appbar.dart';
 import 'package:dogventurehq/ui/screens/home/filter.dart';
 import 'package:dogventurehq/ui/screens/home/search_bar.dart';
@@ -20,6 +22,7 @@ class ProductsScreen extends StatefulWidget {
 class _ProductsScreenState extends State<ProductsScreen> {
   final ProductController _productCon = Get.find<ProductController>();
   final TextEditingController _searchCon = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +48,9 @@ class _ProductsScreenState extends State<ProductsScreen> {
                     ),
                   ),
                   isScrollControlled: true,
-                  builder: (_) => const Filter(),
+                  builder: (_) => Filter(
+                    pCon: _productCon,
+                  ),
                 );
               },
             ),

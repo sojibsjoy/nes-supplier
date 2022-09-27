@@ -152,7 +152,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   isScrollControlled: true,
-                  builder: (_) => const Filter(),
+                  builder: (_) => Filter(
+                    pCon: _productCon,
+                  ),
                 );
               },
             ),

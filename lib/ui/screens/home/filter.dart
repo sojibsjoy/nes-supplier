@@ -1,3 +1,7 @@
+import 'package:dogventurehq/states/controllers/product.dart';
+import 'package:dogventurehq/states/data/prefs.dart';
+import 'package:dogventurehq/states/models/category.dart';
+import 'package:dogventurehq/states/models/supplier.dart';
 import 'package:dogventurehq/ui/designs/custom_btn.dart';
 import 'package:dogventurehq/ui/designs/custom_txt_btn.dart';
 import 'package:dogventurehq/ui/widgets/dialog_titlebar.dart';
@@ -7,13 +11,18 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class Filter extends StatefulWidget {
-  const Filter({Key? key}) : super(key: key);
+  final ProductController pCon;
+  const Filter({
+    Key? key,
+    required this.pCon,
+  }) : super(key: key);
 
   @override
   State<Filter> createState() => _FilterState();
 }
 
 class _FilterState extends State<Filter> {
+  late SupplierModel _supplierInfo;
   final List<String> _filterItems = [
     'Categories',
     'Sub Categories',
@@ -23,19 +32,17 @@ class _FilterState extends State<Filter> {
     'Country of Origin',
   ];
 
-  final List<String> _categories = [
-    'Fruits and Vegetables',
-    'Dairy and Eggs',
-    'Nuts and Seeds',
-    'Coffee and Tea',
-    'Chips and Snacks',
-    'Chocolates',
-    'Juices',
-    'Household Care',
-  ];
-  int _selectedIndex = -1;
+  CategoryModel? _selectedCategory;
   String _selectedItem = '';
   bool _nextFlag = false;
+
+  @override
+  void initState() {
+    _supplierInfo = Preference.getUserDetails();
+    widget.pCon.getCategories();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -58,30 +65,7 @@ class _FilterState extends State<Filter> {
             ),
           ),
           addH(20.h),
-          _nextFlag
-              ? ListView.builder(
-                  itemCount: _categories.length,
-                  shrinkWrap: true,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Row(
-                      children: [
-                        Checkbox(
-                          value: _selectedIndex == index,
-                          activeColor: Colors.red.shade900,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5.r),
-                          ),
-                          onChanged: (value) => setState(
-                            () => _selectedIndex = index,
-                          ),
-                        ),
-                        addW(5.w),
-                        Text(_categories[index]),
-                      ],
-                    );
-                  },
-                )
-              : _initialBody(),
+          _nextFlag ? getNextView() : _initialBody(),
           const Spacer(),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -89,7 +73,10 @@ class _FilterState extends State<Filter> {
               CustomBtn(
                 onPressedFn: _nextFlag
                     ? () {
-                        print('Apply');
+                        widget.pCon.getProducts(
+                          supplierID: _supplierInfo.supplierId,
+                          categoryID: _selectedCategory!.categoryId,
+                        );
                         Get.back();
                       }
                     : () => setState(() => _nextFlag = true),
@@ -108,6 +95,36 @@ class _FilterState extends State<Filter> {
           ),
           addH(20.h),
         ],
+      ),
+    );
+  }
+
+  Widget getNextView() {
+    return SizedBox(
+      height: 455.h,
+      child: ListView.builder(
+        itemCount: widget.pCon.categories.length,
+        shrinkWrap: true,
+        itemBuilder: (BuildContext context, int index) {
+          return Row(
+            children: [
+              Checkbox(
+                value: _selectedCategory == widget.pCon.categories[index],
+                activeColor: Colors.red.shade900,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5.r),
+                ),
+                onChanged: (value) => setState(
+                  () => value!
+                      ? _selectedCategory = widget.pCon.categories[index]
+                      : _selectedCategory = null,
+                ),
+              ),
+              addW(5.w),
+              Text(widget.pCon.categories[index].name),
+            ],
+          );
+        },
       ),
     );
   }

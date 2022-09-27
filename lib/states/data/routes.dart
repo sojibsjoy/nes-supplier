@@ -46,12 +46,13 @@ class AllRoutes {
     ),
     GetPage(
       name: OrderDetails.routeName,
-      page: () => OrderDetails(),
+      page: () => const OrderDetails(),
       binding: OrderBinding(),
     ),
     GetPage(
       name: ProfileScreen.routeName,
       page: () => const ProfileScreen(),
+      binding: AuthBinding(),
     ),
     GetPage(
       name: NotificationScreen.routeName,

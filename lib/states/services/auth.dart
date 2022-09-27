@@ -27,4 +27,16 @@ class AuthService {
     );
     return response;
   }
+
+  static Future<dynamic> uploadUserDp({
+    required int supplierId,
+    required dynamic file,
+  }) async {
+    var response = await BaseClient.uploadImg(
+      supplierId: supplierId,
+      api: ConstantStrings.kUploadDP,
+      imgFile: file,
+    );
+    return response;
+  }
 }
