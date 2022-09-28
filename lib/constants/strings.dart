@@ -11,6 +11,8 @@ class ConstantStrings {
   static String kWebHtml = 'web-html/Privacy-Policy/4';
   static String kUploadDP = 'upload-supplier-profile-picture';
   static String kCategories = 'ParentCategory/4';
+  static String kBrands = 'Brands';
+  static String kDashboard = 'supplier-dashboard?supplierId=';
 
   // error msgs
   static String kWentWrong = 'Something went wrong';

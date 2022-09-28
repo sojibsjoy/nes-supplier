@@ -26,7 +26,10 @@ class SupplierModel {
     required this.bankAccountNo,
     required this.shopName,
     required this.shopImage,
-    required this.supplierNumber,
+    required this.totalAmount,
+    required this.totalOrder,
+    required this.image,
+    required this.earnThisMonth,
   });
 
   int supplierId;
@@ -45,7 +48,10 @@ class SupplierModel {
   String bankAccountNo;
   String shopName;
   String shopImage;
-  String supplierNumber;
+  double totalAmount;
+  double totalOrder;
+  String image;
+  double earnThisMonth;
 
   factory SupplierModel.fromJson(Map<String, dynamic> json) => SupplierModel(
         supplierId: json["supplierId"],
@@ -64,7 +70,10 @@ class SupplierModel {
         bankAccountNo: json["bankAccountNo"],
         shopName: json["shopName"] ?? '',
         shopImage: json["shopImage"] ?? '',
-        supplierNumber: json["supplierNumber"] ?? '',
+        totalAmount: json["totalAmount"] ?? 0.0,
+        totalOrder: json["totalOrder"] ?? 0.0,
+        image: json["image"] ?? '',
+        earnThisMonth: json["earnThisMonth"] ?? 0.0,
       );
 
   Map<String, dynamic> toJson({
@@ -87,6 +96,5 @@ class SupplierModel {
         "bankAccountNo": bankAccountNo,
         "shopName": shopName,
         if (noShopImage == null) "shopImage": shopImage,
-        "supplierNumber": supplierNumber,
       };
 }

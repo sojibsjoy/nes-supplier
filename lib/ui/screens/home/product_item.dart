@@ -26,6 +26,8 @@ class ProductItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Slidable(
       key: Key('$index'),
+      // turn this on once the edit & delete apis are ready
+      enabled: false,
       endActionPane: ActionPane(
         extentRatio: 0.16,
         motion: const ScrollMotion(),

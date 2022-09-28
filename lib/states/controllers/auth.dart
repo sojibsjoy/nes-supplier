@@ -52,6 +52,7 @@ class AuthController extends GetxController {
       supplier = SupplierModel.fromJson(response);
       if (supplier != null) {
         isUpdated(true);
+        supplier!.shopImage = supplier!.image;
         Preference.setUserDetails(supplier!);
       }
     } finally {

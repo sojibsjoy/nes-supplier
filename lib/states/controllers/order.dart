@@ -16,13 +16,13 @@ class OrderController extends GetxController {
   List<DriverModel> driverList = List.empty();
   OrderShippingModel? orderShippingModel;
 
-  void getCurrentOrders({
-    required int invoiceStatusID,
+  void getOrders({
+    int? invoiceStatusID,
     required int supplierID,
   }) async {
     ordersLoading(true);
     try {
-      var response = await OrderService.getCurrentOrders(
+      var response = await OrderService.getOrders(
         invoiceStatusId: invoiceStatusID,
         supplierId: supplierID,
       );

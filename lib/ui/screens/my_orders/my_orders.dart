@@ -39,7 +39,7 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
   @override
   void initState() {
     _supplierInfo = Preference.getUserDetails();
-    _orderCon.getCurrentOrders(
+    _orderCon.getOrders(
       invoiceStatusID: _btnIds[0],
       supplierID: _supplierInfo.supplierId,
     );
@@ -69,7 +69,7 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
                   padding: EdgeInsets.only(right: 10.w),
                   child: CustomBtn(
                     onPressedFn: () {
-                      _orderCon.getCurrentOrders(
+                      _orderCon.getOrders(
                         invoiceStatusID: _btnIds[index],
                         supplierID: _supplierInfo.supplierId,
                       );

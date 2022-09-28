@@ -1,6 +1,5 @@
+import 'package:dogventurehq/constants/strings.dart';
 import 'package:dogventurehq/states/controllers/product.dart';
-import 'package:dogventurehq/states/data/prefs.dart';
-import 'package:dogventurehq/states/models/supplier.dart';
 import 'package:dogventurehq/ui/designs/custom_appbar.dart';
 import 'package:dogventurehq/ui/screens/home/filter.dart';
 import 'package:dogventurehq/ui/screens/home/search_bar.dart';
@@ -56,9 +55,26 @@ class _ProductsScreenState extends State<ProductsScreen> {
             ),
             addH(10.h),
             // Product list
-            ProductList(
-              productsList: _productCon.products!.productListRequestModels,
-            ),
+            Obx(() {
+              if (_productCon.productsLoading.value) {
+                return Padding(
+                  padding: EdgeInsets.only(top: 250.h),
+                  child: const CircularProgressIndicator(),
+                );
+              } else {
+                if (_productCon.products == null) {
+                  return Padding(
+                    padding: EdgeInsets.only(top: 250.h),
+                    child: Text(ConstantStrings.kNoData),
+                  );
+                } else {
+                  return ProductList(
+                    productsList:
+                        _productCon.products!.productListRequestModels,
+                  );
+                }
+              }
+            })
           ],
         ),
       ),

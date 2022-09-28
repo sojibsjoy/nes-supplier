@@ -311,12 +311,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       SummaryCon(
                         icon: 'cash',
                         title: 'Total Earn',
-                        amount: '8,200',
+                        amount: _supplierInfo.totalAmount.toString(),
                       ),
                       SummaryCon(
                         icon: 'money',
                         title: 'Earn This Month',
-                        amount: '1,500',
+                        amount: _supplierInfo.earnThisMonth.toString(),
                         iconBg: Colors.red.shade900,
                       ),
                     ],

@@ -70,6 +70,7 @@ class AllRoutes {
     GetPage(
       name: TotalOrdersScreen.routeName,
       page: () => const TotalOrdersScreen(),
+      binding: OrderBinding(),
     ),
   ];
 }

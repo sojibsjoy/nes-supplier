@@ -37,6 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     _supplierInfo = Preference.getUserDetails();
+    _productCon.getDashboardData(supplierID: _supplierInfo.supplierId);
     _productCon.getProducts(supplierID: _supplierInfo.supplierId);
     super.initState();
   }
@@ -88,38 +89,60 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             addH(10.h),
             // chart
-            Image.asset(
-              'assets/imgs/chart.png',
-              width: 395.w,
-              fit: BoxFit.fitWidth,
+            SizedBox(
+              height: 300.h,
+              child: Column(
+                children: [
+                  Obx(
+                    () {
+                      if (_productCon.dashboardLoading.value) {
+                        return const Center(child: CircularProgressIndicator());
+                      } else {
+                        if (_productCon.dashboardData == null) {
+                          return Center(child: Text(ConstantStrings.kNoData));
+                        } else {
+                          return Image.asset(
+                            'assets/imgs/chart.png',
+                            height: 180.w,
+                            fit: BoxFit.fitHeight,
+                          );
+                        }
+                      }
+                    },
+                  ),
+                  addH(20.h),
+                  // total earnings, pending payment, & total orders
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      // total earnings
+                      HomeCon(
+                        icon: 'cash',
+                        title: 'Total Earnings',
+                        amount: _isDaily
+                            ? 'AED ${_productCon.dashboardData!.totalSaleDaily}'
+                            : 'AED ${_productCon.dashboardData!.totalSaleThisMonth}',
+                      ),
+                      // total earnings
+                      HomeCon(
+                        icon: 'loading',
+                        title: 'Pending Payment',
+                        amount: 'AED 2,000',
+                        iconBg: Colors.red.shade900,
+                        brdrClr: Colors.black,
+                      ),
+                      // total earnings
+                      HomeCon(
+                        icon: 'order',
+                        title: 'Total Orders',
+                        amount: _supplierInfo.totalOrder.toString(),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
-            addH(20.h),
-            // total earnings, pending payment, & total orders
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                // total earnings
-                HomeCon(
-                  icon: 'cash',
-                  title: 'Total Earnings',
-                  amount: 'AED 50,000',
-                ),
-                // total earnings
-                HomeCon(
-                  icon: 'loading',
-                  title: 'Pending Payment',
-                  amount: 'AED 2,000',
-                  iconBg: Colors.red.shade900,
-                  brdrClr: Colors.black,
-                ),
-                // total earnings
-                HomeCon(
-                  icon: 'order',
-                  title: 'Total Orders',
-                  amount: '3,259',
-                ),
-              ],
-            ),
+
             addH(35.h),
             // divider
             Divider(

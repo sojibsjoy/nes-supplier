@@ -20,7 +20,7 @@ class CustomerInfo extends StatelessWidget {
         Text(
           orderModel.customerViewModel.firstLastName,
           style: TextStyle(
-            fontSize: 16.sp,
+            fontSize: 14.sp,
             fontWeight: FontWeight.w700,
           ),
         ),

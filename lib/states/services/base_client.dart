@@ -32,7 +32,7 @@ class BaseClient {
 
   static Future<dynamic> postData({
     required String api,
-    required dynamic body,
+    dynamic body,
     String? apiVersion,
   }) async {
     String apiV = apiVersion ?? ConstantStrings.kAPIVersion;

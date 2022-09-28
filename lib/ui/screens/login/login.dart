@@ -31,7 +31,6 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     _authCon.isLoggingIn.listen((value) {
-      print('lister added');
       if (!value && _authCon.isLoggedIn.value) {
         Preference.setLoggedInFlag(true);
         Get.toNamed(HomeScreen.routeName);

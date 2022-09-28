@@ -45,20 +45,25 @@ class OrderItem extends StatelessWidget {
           children: [
             Row(
               children: [
-                Text(
-                  'Invoice Number: ',
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                  ),
-                ),
-                Text(
-                  oModel.invoiceViewModels.isEmpty
-                      ? ''
-                      : '#${oModel.invoiceViewModels[0].refNumber}',
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w900,
-                  ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Invoice Number: ',
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                      ),
+                    ),
+                    Text(
+                      oModel.invoiceViewModels.isEmpty
+                          ? ''
+                          : '#${oModel.invoiceViewModels[0].refNumber}',
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w900,
+                      ),
+                    ),
+                  ],
                 ),
                 const Spacer(),
                 Text(
