@@ -7,10 +7,12 @@ import 'package:flutter_svg/svg.dart';
 class SearchBar extends StatelessWidget {
   final TextEditingController searchCon;
   final VoidCallback filterIconFn;
+  final Function(String) onChangedFn;
   const SearchBar({
     Key? key,
     required this.searchCon,
     required this.filterIconFn,
+    required this.onChangedFn,
   }) : super(key: key);
 
   @override
@@ -43,6 +45,7 @@ class SearchBar extends StatelessWidget {
             child: CustomField(
               textCon: searchCon,
               hintText: 'Search here...',
+              onChangedFn: onChangedFn,
             ),
           ),
           // filter icon

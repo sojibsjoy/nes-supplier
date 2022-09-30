@@ -1,6 +1,8 @@
 import 'package:dogventurehq/constants/strings.dart';
 import 'package:dogventurehq/states/controllers/product.dart';
 import 'package:dogventurehq/states/data/prefs.dart';
+import 'package:dogventurehq/states/models/dashboard.dart';
+import 'package:dogventurehq/states/models/product.dart';
 import 'package:dogventurehq/states/models/supplier.dart';
 import 'package:dogventurehq/ui/designs/custom_appbar.dart';
 import 'package:dogventurehq/ui/designs/custom_btn.dart';
@@ -18,6 +20,7 @@ import 'package:dogventurehq/ui/widgets/product_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 class HomeScreen extends StatefulWidget {
   static String routeName = '/home';
@@ -33,6 +36,8 @@ class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController _searchCon = TextEditingController();
   late SupplierModel _supplierInfo;
   bool _isDaily = true;
+
+  List<ProductListRequestModel> pList = List.empty(growable: true);
 
   @override
   void initState() {
@@ -108,14 +113,44 @@ class _HomeScreenState extends State<HomeScreen> {
                     );
                   } else {
                     return SizedBox(
-                      height: 300.h,
+                      height: 415.h,
                       child: Column(
                         children: [
-                          Image.asset(
-                            'assets/imgs/chart.png',
-                            height: 180.w,
-                            fit: BoxFit.fitHeight,
+                          SizedBox(
+                            height: 300.h,
+                            child: SfCartesianChart(
+                              title: ChartTitle(
+                                alignment: ChartAlignment.center,
+                                text: _isDaily
+                                    ? "No. of Sales (Daily)"
+                                    : "No. of Sales (Monthly)",
+                              ),
+                              primaryXAxis: CategoryAxis(),
+                              series: [
+                                ColumnSeries<OrderOverViewLyViewModel, String>(
+                                  sortingOrder: SortingOrder.ascending,
+                                  color: Colors.red.shade900,
+                                  dataSource: _isDaily
+                                      ? _productCon.dashboardData!.orderSales
+                                          .orderOverViewDailyViewModels
+                                      : _productCon.dashboardData!.orderSales
+                                          .orderOverViewMonthlyViewModels,
+                                  xValueMapper: (a, b) =>
+                                      _isDaily ? a.dayName : a.monthName,
+                                  yValueMapper: (c, d) =>
+                                      _isDaily ? c.totalAmount : c.totalAmount,
+                                  dataLabelSettings: const DataLabelSettings(
+                                    isVisible: true,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
+                          // Image.asset(
+                          //   'assets/imgs/chart.png',
+                          //   height: 180.h,
+                          //   fit: BoxFit.fitHeight,
+                          // ),
                           addH(20.h),
                           // total earnings, pending payment, & total orders
                           Row(
@@ -125,15 +160,17 @@ class _HomeScreenState extends State<HomeScreen> {
                               HomeCon(
                                 icon: 'cash',
                                 title: 'Total Earnings',
+                                //TODO: change this totalSaleThisWeek to daily
                                 amount: _isDaily
-                                    ? 'AED ${_productCon.dashboardData!.totalSaleDaily}'
+                                    ? 'AED ${_productCon.dashboardData!.orderSales.orderOverViewDailyViewModels[0].totalAmount}'
                                     : 'AED ${_productCon.dashboardData!.totalSaleThisMonth}',
                               ),
                               // total earnings
                               HomeCon(
                                 icon: 'loading',
                                 title: 'Pending Payment',
-                                amount: 'AED 2,000',
+                                amount:
+                                    'AED ${_productCon.dashboardData!.suppliers.supplierDetailsViewModels[0].due}',
                                 iconBg: Colors.red.shade900,
                                 brdrClr: Colors.black,
                               ),
@@ -141,7 +178,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               HomeCon(
                                 icon: 'order',
                                 title: 'Total Orders',
-                                amount: _supplierInfo.totalOrder.toString(),
+                                amount: _isDaily
+                                    ? 'AED ${_productCon.dashboardData!.orderSales.orderOverViewDailyViewModels[0].totalOrder}'
+                                    : 'AED ${_productCon.dashboardData!.totalOrderThisMonth}',
                               ),
                             ],
                           ),
@@ -152,7 +191,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 }
               },
             ),
-
             addH(35.h),
             // divider
             Divider(
@@ -190,6 +228,15 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 );
               },
+              onChangedFn: (query) {
+                final inputName = query.toLowerCase();
+                final list = _productCon.products!.productListRequestModels
+                    .where((element) {
+                  final pName = element.productName.toLowerCase();
+                  return pName.contains(inputName);
+                }).toList();
+                setState(() => pList = list);
+              },
             ),
             addH(20.h),
             // Product list
@@ -200,9 +247,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 if (_productCon.products == null) {
                   return Text(ConstantStrings.kNoData);
                 } else {
+                  if (pList.isEmpty) {
+                    pList = _productCon.products!.productListRequestModels;
+                  }
                   return ProductList(
-                    productsList:
-                        _productCon.products!.productListRequestModels,
+                    productsList: pList,
                   );
                 }
               }

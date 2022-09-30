@@ -14,6 +14,7 @@ class CustomField extends StatefulWidget {
   Color? brdrClr;
   double? txtSize;
   int? maxLine;
+  Function(String)? onChangedFn;
   CustomField({
     Key? key,
     required this.textCon,
@@ -28,6 +29,7 @@ class CustomField extends StatefulWidget {
     this.brdrClr,
     this.txtSize,
     this.maxLine,
+    this.onChangedFn,
   }) : super(key: key);
 
   @override
@@ -49,6 +51,7 @@ class _CustomFieldState extends State<CustomField> {
       width: widget.width ?? 388.w,
       height: widget.height ?? 50.h,
       child: TextField(
+        onChanged: widget.onChangedFn,
         maxLines: widget.maxLine,
         style: TextStyle(
           fontSize: widget.txtSize ?? 16.sp,

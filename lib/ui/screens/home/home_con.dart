@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -51,8 +52,9 @@ class HomeCon extends StatelessWidget {
               fontSize: 12.sp,
             ),
           ),
-          Text(
+          AutoSizeText(
             amount,
+            maxLines: 1,
             style: TextStyle(
               fontSize: 18.sp,
               fontWeight: FontWeight.w900,
