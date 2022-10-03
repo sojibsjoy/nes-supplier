@@ -250,9 +250,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       activeColor: Colors.red.shade900,
                       value: _acceptingOrdersFlag,
                       borderRadius: 30.0,
-                      onToggle: (value) => setState(
-                        () => _acceptingOrdersFlag = value,
-                      ),
+                      onToggle: (value) => setState(() {
+                        Methods.showSnackbar(
+                          title: 'Orders Setting',
+                          msg:
+                              "Accepting Orders ${value ? 'Enabled' : 'Disabled'}!",
+                        );
+                        _acceptingOrdersFlag = value;
+                      }),
                     ),
                   ),
                   // enable otp
@@ -267,7 +272,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       value: _enableOTPFlag,
                       borderRadius: 30.0,
                       onToggle: (value) => setState(
-                        () => _enableOTPFlag = value,
+                        () {
+                          Methods.showSnackbar(
+                            title: 'OTP Setting',
+                            msg:
+                                "OTP ${value ? 'Enabled' : 'Disabled'} Successfully!",
+                          );
+                          _enableOTPFlag = value;
+                        },
                       ),
                     ),
                   ),
@@ -282,9 +294,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       activeColor: Colors.red.shade900,
                       value: _notificationFlag,
                       borderRadius: 30.0,
-                      onToggle: (value) => setState(
-                        () => _notificationFlag = value,
-                      ),
+                      onToggle: (value) => setState(() {
+                        Methods.showSnackbar(
+                          title: 'Email Setting',
+                          msg:
+                              "Receive Notification via Email ${value ? 'Enabled' : 'Disabled'}!",
+                        );
+                        _notificationFlag = value;
+                      }),
                     ),
                   ),
                   // address

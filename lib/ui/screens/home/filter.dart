@@ -101,7 +101,7 @@ class _FilterState extends State<Filter> {
           setBrandsFn: (List<BrandModel> brands) => _selectedBrands = brands,
         );
       default:
-        return Text(ConstantStrings.kWentWrong);
+        return Text(ConstantStrings.kNoData);
     }
   }
 

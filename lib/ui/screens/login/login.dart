@@ -33,7 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
     _authCon.isLoggingIn.listen((value) {
       if (!value && _authCon.isLoggedIn.value) {
         Preference.setLoggedInFlag(true);
-        Get.toNamed(HomeScreen.routeName);
+        Get.offAllNamed(HomeScreen.routeName);
       }
     });
     super.initState();

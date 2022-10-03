@@ -24,12 +24,12 @@ class _SplashScreenState extends State<SplashScreen> {
     if (Preference.getLoggedInFlag()) {
       Future.delayed(
         const Duration(seconds: 2),
-        () => Get.toNamed(HomeScreen.routeName),
+        () => Get.offAllNamed(HomeScreen.routeName),
       );
     } else {
       Future.delayed(
         const Duration(seconds: 2),
-        () => Get.toNamed(LoginScreen.routeName),
+        () => Get.offAllNamed(LoginScreen.routeName),
       );
     }
   }

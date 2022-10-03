@@ -1,5 +1,8 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:dogventurehq/constants/strings.dart';
 import 'package:dogventurehq/states/data/prefs.dart';
 import 'package:dogventurehq/states/models/supplier.dart';
+import 'package:dogventurehq/states/utils/methods.dart';
 import 'package:dogventurehq/ui/designs/custom_img.dart';
 import 'package:dogventurehq/ui/designs/menu_item.dart';
 import 'package:dogventurehq/ui/screens/login/login.dart';
@@ -14,6 +17,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/route_manager.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomeDrawer extends StatefulWidget {
   final SupplierModel supplierInfo;
@@ -54,22 +58,18 @@ class _HomeDrawerState extends State<HomeDrawer> {
     () => Get.toNamed(NotificationScreen.routeName),
     () => Get.toNamed(ProfileScreen.routeName),
     () => Get.toNamed(PrivacyPolicyScreen.routeName),
-    () {
-      Preference.logOut();
-      Get.offAllNamed(LoginScreen.routeName);
-    },
-    // () => AwesomeDialog(
-    //       context: Get.context!,
-    //       dialogType: DialogType.WARNING,
-    //       animType: AnimType.BOTTOMSLIDE,
-    //       title: 'Log Out',
-    //       desc: 'Are you sure want to log out?',
-    //       btnCancelOnPress: () {},
-    //       btnOkOnPress: () {
-    //         Get.offAllNamed(LoginScreen.routeName);
-    //         Preference.logOut();
-    //       },
-    //     ).show(),
+    () => AwesomeDialog(
+          context: Get.context!,
+          dialogType: DialogType.warning,
+          animType: AnimType.bottomSlide,
+          title: 'Log Out',
+          desc: 'Are you sure want to log out?',
+          btnCancelOnPress: () {},
+          btnOkOnPress: () {
+            Preference.logOut();
+            Get.offAllNamed(LoginScreen.routeName);
+          },
+        ).show(),
   ];
 
   PackageInfo _pInfo = PackageInfo(
@@ -231,20 +231,30 @@ class _HomeDrawerState extends State<HomeDrawer> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Container(
-                            width: 35.w,
-                            height: 35.h,
-                            margin: EdgeInsets.only(right: 10.w),
-                            decoration: BoxDecoration(
-                              color: Colors.red.shade900,
-                              shape: BoxShape.circle,
-                            ),
-                            child: Center(
-                              child: SvgPicture.asset(
-                                'assets/svgs/email.svg',
-                                color: Colors.white,
-                                width: 20.w,
-                                fit: BoxFit.fitWidth,
+                          InkWell(
+                            onTap: () async {
+                              if (!await launchUrl(
+                                  Uri.parse("https://royex.ae"))) {
+                                Methods.showSnackbar(
+                                  msg: ConstantStrings.kWentWrong,
+                                );
+                              }
+                            },
+                            child: Container(
+                              width: 35.w,
+                              height: 35.h,
+                              margin: EdgeInsets.only(right: 10.w),
+                              decoration: BoxDecoration(
+                                color: Colors.red.shade900,
+                                shape: BoxShape.circle,
+                              ),
+                              child: Center(
+                                child: SvgPicture.asset(
+                                  'assets/svgs/email.svg',
+                                  color: Colors.white,
+                                  width: 20.w,
+                                  fit: BoxFit.fitWidth,
+                                ),
                               ),
                             ),
                           ),
@@ -262,11 +272,20 @@ class _HomeDrawerState extends State<HomeDrawer> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          _socialIcon('twitter'),
+                          _socialIcon(
+                            'twitter',
+                          ),
                           addW(20.w),
-                          _socialIcon('fb'),
+                          _socialIcon(
+                            'fb',
+                            onTapFn: () => Methods.showSnackbar(
+                              msg: 'No Link Found!.',
+                            ),
+                          ),
                           addW(20.w),
-                          _socialIcon('instagram'),
+                          _socialIcon(
+                            'instagram',
+                          ),
                         ],
                       ),
                       addH(30.h),
@@ -308,10 +327,26 @@ class _HomeDrawerState extends State<HomeDrawer> {
     );
   }
 
-  Widget _socialIcon(String icon) => SvgPicture.asset(
-        'assets/svgs/$icon.svg',
-        height: 22.h,
-        fit: BoxFit.fitHeight,
+  Widget _socialIcon(
+    String icon, {
+    VoidCallback? onTapFn,
+  }) =>
+      InkWell(
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
+        onTap: onTapFn ??
+            () async {
+              if (!await launchUrl(Uri.parse("https://royex.ae"))) {
+                Methods.showSnackbar(
+                  msg: ConstantStrings.kWentWrong,
+                );
+              }
+            },
+        child: SvgPicture.asset(
+          'assets/svgs/$icon.svg',
+          height: 22.h,
+          fit: BoxFit.fitHeight,
+        ),
       );
 
   Widget buildDivider() {
