@@ -17,6 +17,8 @@ class ProductService {
     required int supplierId,
     List<int>? categoryIds,
     List<int>? brandIds,
+    double? minPrice,
+    double? maxPrice,
   }) async {
     var response = await BaseClient.postData(
       api: ConstantStrings.kProductsFilter,
@@ -24,6 +26,8 @@ class ProductService {
         "supplierId": '$supplierId',
         "categoryIds": jsonEncode(categoryIds),
         "brandIds": jsonEncode(brandIds),
+        "minPrice": '$minPrice',
+        "maxPrice": '$maxPrice',
       },
     );
     return response;

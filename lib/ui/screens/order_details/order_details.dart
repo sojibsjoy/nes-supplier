@@ -222,7 +222,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                         top: Radius.circular(10.r),
                       ),
                     ),
-                    builder: (_) => DriverDialog(
+                    builder: (_) => ForwardToDriverDialog(
                       orderModel: oModel,
                       oCon: _orderCon,
                     ),

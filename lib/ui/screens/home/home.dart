@@ -40,6 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController _searchCon = TextEditingController();
   late SupplierModel _supplierInfo;
   bool _isDaily = true;
+  bool _assignToTheListFlag = true;
 
   List<ProductListRequestModel> pList = List.empty(growable: true);
 
@@ -235,6 +236,7 @@ class _HomeScreenState extends State<HomeScreen> {
               SearchBar(
                 searchCon: _searchCon,
                 filterIconFn: () {
+                  _assignToTheListFlag = true;
                   showModalBottomSheet(
                     context: context,
                     shape: RoundedRectangleBorder(
@@ -264,12 +266,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 if (_productCon.productsLoading.value) {
                   return const CircularProgressIndicator();
                 } else {
-                  if (_productCon.products == null) {
-                    return Text(ConstantStrings.kNoData);
+                  if (_assignToTheListFlag) {
+                    pList = _productCon.products!.productListRequestModels;
+                    _assignToTheListFlag = false;
+                  }
+                  if (pList.isEmpty) {
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 40),
+                      child: Text(ConstantStrings.kNoData),
+                    );
                   } else {
-                    if (pList.isEmpty) {
-                      pList = _productCon.products!.productListRequestModels;
-                    }
                     return ProductList(
                       productsList: pList,
                     );

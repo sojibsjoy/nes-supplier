@@ -8,33 +8,50 @@ import 'package:dogventurehq/ui/designs/custom_field.dart';
 import 'package:dogventurehq/ui/widgets/dialog_titlebar.dart';
 import 'package:dogventurehq/ui/widgets/helper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-class DriverDialog extends StatefulWidget {
+class ForwardToDriverDialog extends StatefulWidget {
   final OrderModel orderModel;
   final OrderController oCon;
-  const DriverDialog({
+  const ForwardToDriverDialog({
     Key? key,
     required this.orderModel,
     required this.oCon,
   }) : super(key: key);
 
   @override
-  State<DriverDialog> createState() => _DriverDialogState();
+  State<ForwardToDriverDialog> createState() => _ForwardToDriverDialogState();
 }
 
-class _DriverDialogState extends State<DriverDialog> {
+class _ForwardToDriverDialogState extends State<ForwardToDriverDialog> {
   final TextEditingController _noteCon = TextEditingController();
+  DateTime _choosenDate = DateTime.now();
+  final List<String> _monthNames = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December'
+  ];
   bool _nextFlag = false;
   int _selectedDriverIndex = -1;
   DriverModel? _selectedDriver;
+
   @override
   void initState() {
     super.initState();
     widget.oCon.orderShippedLoading.listen((value) {
       if (!value && widget.oCon.orderShippingModel != null) {
-        print("hello");
+        // print("hello");
         Get.back();
         Methods.showSnackbar(
           title: "Order Forwarded!",
@@ -67,8 +84,58 @@ class _DriverDialogState extends State<DriverDialog> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text("Selected Driver: ${_selectedDriver!.name}"),
+                    addH(10.h),
+                    Row(
+                      children: [
+                        const Text("Scheduled Shipment Date: "),
+                        InkWell(
+                          onTap: () {
+                            DatePicker.showDatePicker(
+                              context,
+                              showTitleActions: true,
+                              minTime: DateTime.now(),
+                              maxTime: DateTime.now().add(
+                                const Duration(days: 30),
+                              ),
+                              onConfirm: (date) => setState(
+                                () => _choosenDate = date,
+                              ),
+                              currentTime: _choosenDate,
+                              locale: LocaleType.en,
+                            );
+                          },
+                          splashColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          child: Container(
+                            height: 35.h,
+                            width: 200.w,
+                            padding: EdgeInsets.symmetric(horizontal: 10.w),
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade200,
+                              border: Border.all(
+                                color: Colors.grey.shade500,
+                              ),
+                            ),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Center(
+                                    child: Text(
+                                      "${_choosenDate.day} ${_monthNames.elementAt(_choosenDate.month - 1)} ${_choosenDate.year}",
+                                    ),
+                                  ),
+                                ),
+                                const Icon(
+                                  Icons.calendar_month,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                     Container(
-                      height: 300.h,
+                      height: 280.h,
                       padding: EdgeInsets.symmetric(
                           horizontal: 15.w, vertical: 15.h),
                       margin: EdgeInsets.symmetric(vertical: 20.h),
@@ -119,7 +186,7 @@ class _DriverDialogState extends State<DriverDialog> {
                     ? () {
                         OrderShippingModel oShippingModel = OrderShippingModel(
                             driverId: _selectedDriver!.driverId,
-                            shipmentDate: DateTime.now(),
+                            shipmentDate: _choosenDate,
                             note: _noteCon.text,
                             invoiceStatusId: widget.orderModel
                                 .invoiceViewModels[0].invoiceStatusId,

@@ -37,15 +37,21 @@ class _FilterState extends State<Filter> {
   ];
 
   int? _selectedItem;
-  List<CategoryModel> _selectedCategories = List.empty();
-  List<BrandModel> _selectedBrands = List.empty();
+  List<CategoryModel> _selectedCategories = List.empty(growable: true);
+  List<BrandModel> _selectedBrands = List.empty(growable: true);
+  RangeValues _currentValues = const RangeValues(100.0, 5000.0);
+
   bool _nextFlag = false;
 
   @override
   void initState() {
     _supplierInfo = Preference.getUserDetails();
-    widget.pCon.getCategories();
-    widget.pCon.getBrands();
+    if (widget.pCon.categories.isEmpty) {
+      widget.pCon.getCategories();
+    }
+    if (widget.pCon.brands.isEmpty) {
+      widget.pCon.getBrands();
+    }
     super.initState();
   }
 
@@ -66,6 +72,7 @@ class _FilterState extends State<Filter> {
             title: 'Filter',
             suffixWidget: CustomTxtBtn(
               onTapFn: () => setState(() {
+                _currentValues = const RangeValues(100.0, 5000.0);
                 _selectedCategories.clear();
                 _selectedBrands.clear();
               }),
@@ -99,6 +106,40 @@ class _FilterState extends State<Filter> {
           supplierId: _supplierInfo.supplierId,
           selectedBrands: _selectedBrands,
           setBrandsFn: (List<BrandModel> brands) => _selectedBrands = brands,
+        );
+      case 2:
+        return Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: const [
+                Text('Minimum Price'),
+                Text('Maximum Price'),
+              ],
+            ),
+            addH(10.h),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text("AED ${_currentValues.start.round()}"),
+                Text("AED ${_currentValues.end.round()}"),
+              ],
+            ),
+            // price slider
+            RangeSlider(
+              values: _currentValues,
+              min: 100,
+              max: 5000,
+              divisions: 20,
+              activeColor: Colors.red.shade900,
+              onChangeEnd: (values) {},
+              onChanged: (values) {
+                setState(() {
+                  _currentValues = values;
+                });
+              },
+            ),
+          ],
         );
       default:
         return Text(ConstantStrings.kNoData);
@@ -150,6 +191,8 @@ class _FilterState extends State<Filter> {
                 supplierID: _supplierInfo.supplierId,
                 categoryIDs: categoryIds,
                 brandIDs: brandIds,
+                minPrice: _currentValues.start,
+                maxPrice: _currentValues.end,
               );
               Get.back();
             },

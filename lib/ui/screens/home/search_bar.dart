@@ -17,57 +17,60 @@ class SearchBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 388.w,
-      height: 48.h,
-      padding: EdgeInsets.only(left: 15.w),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10.r),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.2),
-            blurRadius: 10.w,
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          SvgPicture.asset(
-            'assets/svgs/search.svg',
-            width: 20.w,
-            fit: BoxFit.fitWidth,
-          ),
-          addW(10.w),
-          // search field
-          SizedBox(
-            width: 300.w,
-            child: CustomField(
-              textCon: searchCon,
-              hintText: 'Search here...',
-              onChangedFn: onChangedFn,
+    return Hero(
+      tag: "searchBar",
+      child: Container(
+        width: 388.w,
+        height: 48.h,
+        padding: EdgeInsets.only(left: 15.w),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10.r),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.2),
+              blurRadius: 10.w,
             ),
-          ),
-          // filter icon
-          InkWell(
-            onTap: filterIconFn,
-            splashColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-            child: Container(
-              width: 34.w,
-              height: 34.h,
-              decoration: BoxDecoration(
-                color: Colors.black,
-                borderRadius: BorderRadius.circular(10.r),
+          ],
+        ),
+        child: Row(
+          children: [
+            SvgPicture.asset(
+              'assets/svgs/search.svg',
+              width: 20.w,
+              fit: BoxFit.fitWidth,
+            ),
+            addW(10.w),
+            // search field
+            SizedBox(
+              width: 300.w,
+              child: CustomField(
+                textCon: searchCon,
+                hintText: 'Search here...',
+                onChangedFn: onChangedFn,
               ),
-              child: Center(
-                child: SvgPicture.asset(
-                  'assets/svgs/filter.svg',
+            ),
+            // filter icon
+            InkWell(
+              onTap: filterIconFn,
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              child: Container(
+                width: 34.w,
+                height: 34.h,
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: BorderRadius.circular(10.r),
+                ),
+                child: Center(
+                  child: SvgPicture.asset(
+                    'assets/svgs/filter.svg',
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

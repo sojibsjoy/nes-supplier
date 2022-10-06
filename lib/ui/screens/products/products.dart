@@ -24,6 +24,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
   final TextEditingController _searchCon = TextEditingController();
 
   List<ProductListRequestModel> pList = List.empty(growable: true);
+  bool _assignToTheListFlag = true;
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +43,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
             SearchBar(
               searchCon: _searchCon,
               filterIconFn: () {
+                _assignToTheListFlag = true;
                 showModalBottomSheet(
                   context: context,
                   shape: RoundedRectangleBorder(
@@ -74,15 +76,16 @@ class _ProductsScreenState extends State<ProductsScreen> {
                   child: const CircularProgressIndicator(),
                 );
               } else {
-                if (_productCon.products == null) {
+                if (_assignToTheListFlag) {
+                  pList = _productCon.products!.productListRequestModels;
+                  _assignToTheListFlag = false;
+                }
+                if (pList.isEmpty) {
                   return Padding(
                     padding: EdgeInsets.only(top: 250.h),
                     child: Text(ConstantStrings.kNoData),
                   );
                 } else {
-                  if (pList.isEmpty) {
-                    pList = _productCon.products!.productListRequestModels;
-                  }
                   return ProductList(
                     productsList: pList,
                   );

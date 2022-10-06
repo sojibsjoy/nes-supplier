@@ -45,6 +45,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: true,
       body: Container(
         color: const Color.fromRGBO(183, 28, 28, 1),
         child: Column(
@@ -207,138 +208,139 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             ),
             // body view
-            Container(
-              width: double.infinity,
-              height: 550.1.h,
-              padding: EdgeInsets.symmetric(vertical: 10.h),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(15.r),
-                  topRight: Radius.circular(15.r),
+            Expanded(
+              child: Container(
+                width: double.infinity,
+                padding: EdgeInsets.symmetric(vertical: 10.h),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(15.r),
+                  ),
                 ),
-              ),
-              child: Column(
-                // profile items
-                children: [
-                  // name
-                  CustomMenuItem(
-                    icon: 'person',
-                    title: 'Name',
-                    suffixTxt: _supplierInfo.supplierName,
-                  ),
-                  // email
-                  CustomMenuItem(
-                    icon: 'email',
-                    title: 'Email',
-                    suffixTxt: _supplierInfo.email,
-                  ),
-                  // mobile
-                  CustomMenuItem(
-                    icon: 'phone',
-                    title: 'Mobile',
-                    suffixTxt: _supplierInfo.mobile,
-                  ),
-                  // accepting orders
-                  CustomMenuItem(
-                    icon: 'accepting_order',
-                    title: 'Accepting Orders',
-                    suffixWidget: FlutterSwitch(
-                      width: 50.w,
-                      height: 30.h,
-                      toggleSize: 20.0,
-                      activeColor: Colors.red.shade900,
-                      value: _acceptingOrdersFlag,
-                      borderRadius: 30.0,
-                      onToggle: (value) => setState(() {
-                        Methods.showSnackbar(
-                          title: 'Orders Setting',
-                          msg:
-                              "Accepting Orders ${value ? 'Enabled' : 'Disabled'}!",
-                        );
-                        _acceptingOrdersFlag = value;
-                      }),
+                child: Column(
+                  // profile items
+                  children: [
+                    // name
+                    CustomMenuItem(
+                      icon: 'person',
+                      title: 'Name',
+                      suffixTxt: _supplierInfo.supplierName,
                     ),
-                  ),
-                  // enable otp
-                  CustomMenuItem(
-                    icon: 'otp',
-                    title: 'Enable OTP',
-                    suffixWidget: FlutterSwitch(
-                      width: 50.w,
-                      height: 30.h,
-                      toggleSize: 20.0,
-                      activeColor: Colors.red.shade900,
-                      value: _enableOTPFlag,
-                      borderRadius: 30.0,
-                      onToggle: (value) => setState(
-                        () {
+                    // email
+                    CustomMenuItem(
+                      icon: 'email',
+                      title: 'Email',
+                      suffixTxt: _supplierInfo.email,
+                    ),
+                    // mobile
+                    CustomMenuItem(
+                      icon: 'phone',
+                      title: 'Mobile',
+                      suffixTxt: _supplierInfo.mobile,
+                    ),
+                    // accepting orders
+                    CustomMenuItem(
+                      icon: 'accepting_order',
+                      title: 'Accepting Orders',
+                      suffixWidget: FlutterSwitch(
+                        width: 50.w,
+                        height: 30.h,
+                        toggleSize: 20.0,
+                        activeColor: Colors.red.shade900,
+                        value: _acceptingOrdersFlag,
+                        borderRadius: 30.0,
+                        onToggle: (value) => setState(() {
                           Methods.showSnackbar(
-                            title: 'OTP Setting',
+                            title: 'Orders Setting',
                             msg:
-                                "OTP ${value ? 'Enabled' : 'Disabled'} Successfully!",
+                                "Accepting Orders ${value ? 'Enabled' : 'Disabled'}!",
                           );
-                          _enableOTPFlag = value;
-                        },
+                          _acceptingOrdersFlag = value;
+                        }),
                       ),
                     ),
-                  ),
-                  // receive notification via email
-                  CustomMenuItem(
-                    icon: 'bell',
-                    title: 'Receive Notifications via Email',
-                    suffixWidget: FlutterSwitch(
-                      width: 50.w,
-                      height: 30.h,
-                      toggleSize: 20.0,
-                      activeColor: Colors.red.shade900,
-                      value: _notificationFlag,
-                      borderRadius: 30.0,
-                      onToggle: (value) => setState(() {
-                        Methods.showSnackbar(
-                          title: 'Email Setting',
-                          msg:
-                              "Receive Notification via Email ${value ? 'Enabled' : 'Disabled'}!",
-                        );
-                        _notificationFlag = value;
-                      }),
-                    ),
-                  ),
-                  // address
-                  CustomMenuItem(
-                    onTapFn: () => Get.toNamed(
-                      EditAddressScreen.routeName,
-                    )!
-                        .then((value) => setState(
-                              () => _supplierInfo = Preference.getUserDetails(),
-                            )),
-                    icon: 'location',
-                    title: 'Address',
-                    suffixWidget: Icon(
-                      Icons.arrow_forward_ios,
-                      size: 20.h,
-                    ),
-                    noDividerFlag: true,
-                  ),
-                  addH(30.h),
-                  // total earn & earn this month
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      SummaryCon(
-                        icon: 'cash',
-                        title: 'Total Earn',
-                        amount: _supplierInfo.totalAmount.toString(),
+                    // enable otp
+                    CustomMenuItem(
+                      icon: 'otp',
+                      title: 'Enable OTP',
+                      suffixWidget: FlutterSwitch(
+                        width: 50.w,
+                        height: 30.h,
+                        toggleSize: 20.0,
+                        activeColor: Colors.red.shade900,
+                        value: _enableOTPFlag,
+                        borderRadius: 30.0,
+                        onToggle: (value) => setState(
+                          () {
+                            Methods.showSnackbar(
+                              title: 'OTP Setting',
+                              msg:
+                                  "OTP ${value ? 'Enabled' : 'Disabled'} Successfully!",
+                            );
+                            _enableOTPFlag = value;
+                          },
+                        ),
                       ),
-                      SummaryCon(
-                        icon: 'money',
-                        title: 'Earn This Month',
-                        amount: _supplierInfo.earnThisMonth.toString(),
-                        iconBg: Colors.red.shade900,
+                    ),
+                    // receive notification via email
+                    CustomMenuItem(
+                      icon: 'bell',
+                      title: 'Receive Notifications via Email',
+                      suffixWidget: FlutterSwitch(
+                        width: 50.w,
+                        height: 30.h,
+                        toggleSize: 20.0,
+                        activeColor: Colors.red.shade900,
+                        value: _notificationFlag,
+                        borderRadius: 30.0,
+                        onToggle: (value) => setState(() {
+                          Methods.showSnackbar(
+                            title: 'Email Setting',
+                            msg:
+                                "Receive Notification via Email ${value ? 'Enabled' : 'Disabled'}!",
+                          );
+                          _notificationFlag = value;
+                        }),
                       ),
-                    ],
-                  ),
-                ],
+                    ),
+                    // address
+                    CustomMenuItem(
+                      onTapFn: () => Get.toNamed(
+                        EditAddressScreen.routeName,
+                      )!
+                          .then((value) => setState(
+                                () =>
+                                    _supplierInfo = Preference.getUserDetails(),
+                              )),
+                      icon: 'location',
+                      title: 'Address',
+                      suffixWidget: Icon(
+                        Icons.arrow_forward_ios,
+                        size: 20.h,
+                      ),
+                      noDividerFlag: true,
+                    ),
+                    addH(30.h),
+                    // total earn & earn this month
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        SummaryCon(
+                          icon: 'cash',
+                          title: 'Total Earn',
+                          amount: _supplierInfo.totalAmount.toString(),
+                        ),
+                        SummaryCon(
+                          icon: 'money',
+                          title: 'Earn This Month',
+                          amount: _supplierInfo.earnThisMonth.toString(),
+                          iconBg: Colors.red.shade900,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ],

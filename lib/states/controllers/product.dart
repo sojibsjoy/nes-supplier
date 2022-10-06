@@ -36,6 +36,8 @@ class ProductController extends GetxController {
     required int supplierID,
     List<int>? categoryIDs,
     List<int>? brandIDs,
+    double? minPrice,
+    double? maxPrice,
   }) async {
     productsLoading(true);
     // Methods.showLoading();
@@ -44,6 +46,8 @@ class ProductController extends GetxController {
         supplierId: supplierID,
         categoryIds: categoryIDs,
         brandIds: brandIDs,
+        minPrice: minPrice,
+        maxPrice: maxPrice,
       );
       products = ProductsModel.fromJson(response);
     } finally {
