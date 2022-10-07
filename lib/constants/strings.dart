@@ -13,6 +13,7 @@ class ConstantStrings {
   static String kCategories = 'ParentCategory/4';
   static String kBrands = 'Brands';
   static String kDashboard = 'supplier-dashboard?supplierId=';
+  static String kUpdateOrderStatus = 'update-order-status';
 
   // error msgs
   static String kWentWrong = 'Something went wrong';

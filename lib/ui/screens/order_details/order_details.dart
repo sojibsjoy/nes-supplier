@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:dogventurehq/constants/strings.dart';
 import 'package:dogventurehq/states/controllers/order.dart';
 import 'package:dogventurehq/states/data/prefs.dart';
@@ -189,6 +190,20 @@ class _OrderDetailsState extends State<OrderDetails> {
                       );
                       return;
                     }
+                    AwesomeDialog(
+                      context: Get.context!,
+                      dialogType: DialogType.infoReverse,
+                      animType: AnimType.bottomSlide,
+                      title: 'Confirm',
+                      desc:
+                          'Are you sure want change the order status to delivered?',
+                      btnCancelOnPress: () {},
+                      btnOkOnPress: () {
+                        _orderCon.updateOrderStatus(
+                          invoiceID: oModel.invoiceViewModels[0].invoiceId,
+                        );
+                      },
+                    ).show();
                   },
                   btnTxt: 'Delivered',
                   btnSize: Size(177.w, 52.h),

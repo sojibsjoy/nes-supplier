@@ -38,4 +38,17 @@ class OrderService {
     );
     return response;
   }
+
+  static Future<dynamic> updateOrderStatus({
+    required int invoiceId,
+  }) async {
+    var response = await BaseClient.getData(
+      api: ConstantStrings.kUpdateOrderStatus,
+      parameter: {
+        "invoiceId": '$invoiceId',
+        "invoiceStatusId": ConstantStrings.kDeliveredOrderID,
+      },
+    );
+    return response;
+  }
 }

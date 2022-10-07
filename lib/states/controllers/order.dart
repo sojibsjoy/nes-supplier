@@ -11,6 +11,7 @@ class OrderController extends GetxController {
   RxBool ordersLoading = true.obs;
   RxBool driverLoading = true.obs;
   RxBool orderShippedLoading = true.obs;
+  RxBool orderStatusUpdated = false.obs;
 
   List<OrderModel> orderList = List.empty();
   List<DriverModel> driverList = List.empty();
@@ -62,6 +63,26 @@ class OrderController extends GetxController {
     } finally {
       Methods.hideLoading();
       orderShippedLoading(false);
+    }
+  }
+
+  void updateOrderStatus({
+    required int invoiceID,
+  }) async {
+    Methods.showLoading();
+    try {
+      var response = await OrderService.updateOrderStatus(
+        invoiceId: invoiceID,
+      );
+      print(response);
+    } finally {
+      orderStatusUpdated(true);
+      Methods.hideLoading();
+      Methods.showSnackbar(
+        title: "Status Updated!",
+        msg: "Order status changed to delivered sucessfully!",
+        position: SnackPosition.TOP,
+      );
     }
   }
 }

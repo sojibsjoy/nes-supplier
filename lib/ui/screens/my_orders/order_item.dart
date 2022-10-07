@@ -8,9 +8,11 @@ import 'package:get/route_manager.dart';
 
 class OrderItem extends StatelessWidget {
   final OrderModel oModel;
-  const OrderItem({
+  VoidCallback? backFn;
+  OrderItem({
     Key? key,
     required this.oModel,
+    this.backFn,
   }) : super(key: key);
 
   @override
@@ -19,7 +21,12 @@ class OrderItem extends StatelessWidget {
       onTap: () => Get.toNamed(
         OrderDetails.routeName,
         arguments: oModel,
-      ),
+      )!
+          .then((value) {
+        if (backFn != null) {
+          backFn!();
+        }
+      }),
       child: Container(
         width: 388.w,
         height: 95.h,

@@ -110,6 +110,14 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
                     itemBuilder: (BuildContext context, int index) {
                       return OrderItem(
                         oModel: _orderCon.orderList[index],
+                        backFn: () {
+                          if (_orderCon.orderStatusUpdated.value) {
+                            _orderCon.getOrders(
+                              invoiceStatusID: _btnIds[_selectedBtnIndex],
+                              supplierID: _supplierInfo.supplierId,
+                            );
+                          }
+                        },
                       );
                     },
                   );
