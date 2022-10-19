@@ -35,6 +35,7 @@ class _OrderDetailsState extends State<OrderDetails> {
   @override
   void initState() {
     _supplierInfo = Preference.getUserDetails();
+
     _orderCon.getDriverList(
       supplierID: _supplierInfo.supplierId,
     );

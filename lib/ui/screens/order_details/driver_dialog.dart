@@ -1,3 +1,4 @@
+import 'package:dogventurehq/constants/strings.dart';
 import 'package:dogventurehq/states/controllers/order.dart';
 import 'package:dogventurehq/states/models/driver.dart';
 import 'package:dogventurehq/states/models/order.dart';
@@ -185,17 +186,19 @@ class _ForwardToDriverDialogState extends State<ForwardToDriverDialog> {
                 onPressedFn: _nextFlag
                     ? () {
                         OrderShippingModel oShippingModel = OrderShippingModel(
-                            driverId: _selectedDriver!.driverId,
-                            shipmentDate: _choosenDate,
-                            note: _noteCon.text,
-                            invoiceStatusId: widget.orderModel
-                                .invoiceViewModels[0].invoiceStatusId,
-                            driversOrderViewModels: [
-                              DriversOrderViewModel(
-                                invoiceId: widget
-                                    .orderModel.invoiceViewModels[0].invoiceId,
-                              ),
-                            ]);
+                          driverId: _selectedDriver!.driverId,
+                          shipmentDate: _choosenDate,
+                          note: _noteCon.text,
+                          invoiceStatusId:
+                              ConstantStrings.kSendToDeliveryAgentOrderID,
+                          driversOrderViewModels: [
+                            DriversOrderViewModel(
+                              invoiceId: widget
+                                  .orderModel.invoiceViewModels[0].invoiceId,
+                            ),
+                          ],
+                        );
+
                         widget.oCon.forwardToDriver(
                           oShippedModel: oShippingModel,
                         );

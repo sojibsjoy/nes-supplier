@@ -183,7 +183,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                   title: 'Total Earnings',
                                   //TODO: change this totalSaleThisWeek to daily
                                   amount: _isDaily
-                                      ? 'AED ${_productCon.dashboardData!.orderSales.orderOverViewDailyViewModels[0].totalAmount}'
+                                      ? _productCon
+                                              .dashboardData!
+                                              .orderSales
+                                              .orderOverViewDailyViewModels
+                                              .isEmpty
+                                          ? 'AED 0'
+                                          : 'AED ${_productCon.dashboardData!.orderSales.orderOverViewDailyViewModels[0].totalAmount}'
                                       : 'AED ${_productCon.dashboardData!.totalSaleThisMonth}',
                                 ),
                                 // total earnings
@@ -200,7 +206,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                   icon: 'order',
                                   title: 'Total Orders',
                                   amount: _isDaily
-                                      ? 'AED ${_productCon.dashboardData!.orderSales.orderOverViewDailyViewModels[0].totalOrder}'
+                                      ? _productCon
+                                              .dashboardData!
+                                              .orderSales
+                                              .orderOverViewDailyViewModels
+                                              .isEmpty
+                                          ? 'AED 0'
+                                          : 'AED ${_productCon.dashboardData!.orderSales.orderOverViewDailyViewModels[0].totalOrder}'
                                       : 'AED ${_productCon.dashboardData!.totalOrderThisMonth}',
                                 ),
                               ],

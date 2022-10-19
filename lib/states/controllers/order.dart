@@ -9,11 +9,13 @@ import 'package:get/get.dart';
 
 class OrderController extends GetxController {
   RxBool ordersLoading = true.obs;
+  // RxBool orderDetailsLoading = true.obs;
   RxBool driverLoading = true.obs;
   RxBool orderShippedLoading = true.obs;
   RxBool orderStatusUpdated = false.obs;
 
   List<OrderModel> orderList = List.empty();
+  // List<OrderModel> orderDetails = List.empty();
   List<DriverModel> driverList = List.empty();
   OrderShippingModel? orderShippingModel;
 
@@ -33,6 +35,22 @@ class OrderController extends GetxController {
     }
   }
 
+  // void getOrderDetails({
+  //   required int invoiceMasterID,
+  //   required int invoiceID,
+  // }) async {
+  //   orderDetailsLoading(true);
+  //   try {
+  //     var response = await OrderService.getOrderDetails(
+  //       invoiceMasterId: invoiceMasterID,
+  //       invoiceId: invoiceID,
+  //     );
+  //     orderDetails = orderModelFromJson(jsonEncode(response));
+  //   } finally {
+  //     orderDetailsLoading(false);
+  //   }
+  // }
+
   void getDriverList({
     required int supplierID,
   }) async {
@@ -50,6 +68,7 @@ class OrderController extends GetxController {
   void forwardToDriver({
     required OrderShippingModel oShippedModel,
   }) async {
+    print('body Data: ${oShippedModel.toJson()}');
     orderShippedLoading(true);
     Methods.showLoading();
     try {

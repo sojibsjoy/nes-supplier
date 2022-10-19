@@ -17,6 +17,20 @@ class OrderService {
     return response;
   }
 
+  // static Future<dynamic> getOrderDetails({
+  //   required int invoiceMasterId,
+  //   required int invoiceId,
+  // }) async {
+  //   var response = await BaseClient.getData(
+  //     api: ConstantStrings.kOrderDetails,
+  //     parameter: {
+  //       "invoiceMasterId": '$invoiceMasterId',
+  //       "invoiceId": '$invoiceId',
+  //     },
+  //   );
+  //   return response;
+  // }
+
   static Future<dynamic> getDriverList({
     required int supplierId,
   }) async {

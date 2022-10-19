@@ -14,6 +14,7 @@ class ConstantStrings {
   static String kBrands = 'Brands';
   static String kDashboard = 'supplier-dashboard?supplierId=';
   static String kUpdateOrderStatus = 'update-order-status';
+  // static String kOrderDetails = 'order-details';
 
   // error msgs
   static String kWentWrong = 'Something went wrong';
