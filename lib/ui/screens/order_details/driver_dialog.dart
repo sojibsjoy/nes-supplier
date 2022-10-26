@@ -187,7 +187,8 @@ class _ForwardToDriverDialogState extends State<ForwardToDriverDialog> {
                     ? () {
                         OrderShippingModel oShippingModel = OrderShippingModel(
                           driverId: _selectedDriver!.driverId,
-                          shipmentDate: _choosenDate,
+                          shipmentDate:
+                              _choosenDate.toIso8601String().substring(0, 10),
                           note: _noteCon.text,
                           invoiceStatusId:
                               ConstantStrings.kSendToDeliveryAgentOrderID,

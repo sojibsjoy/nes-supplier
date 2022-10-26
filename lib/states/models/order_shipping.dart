@@ -20,7 +20,7 @@ class OrderShippingModel {
 
   int? driverShipmentId;
   int driverId;
-  DateTime shipmentDate;
+  String shipmentDate;
   String note;
   // DateTime? createdAt;
   int? createBy;
@@ -31,7 +31,7 @@ class OrderShippingModel {
       OrderShippingModel(
         driverShipmentId: json["driverShipmentId"],
         driverId: json["driverId"],
-        shipmentDate: DateTime.parse(json["shipmentDate"]),
+        shipmentDate: json["shipmentDate"],
         note: json["note"],
         // createdAt: json["createdAt"],
         createBy: json["createBy"] ?? 0,
@@ -44,7 +44,7 @@ class OrderShippingModel {
   Map<String, dynamic> toJson() => {
         // "driverShipmentId": driverShipmentId,
         "driverId": driverId,
-        "shipmentDate": shipmentDate.toIso8601String(),
+        "shipmentDate": shipmentDate,
         "note": note,
         // "createdAt": createdAt.toIso8601String(),
         // "createBy": createBy,
