@@ -50,5 +50,9 @@
 			<string>sms</string>
 			<string>tel</string>
 		</array>
+		<key>NSCameraUsageDescription</key>
+		<string>To take user profile picture</string>
+		<key>NSPhotoLibraryUsageDescription</key>
+		<string>To choose user profile picture</string>
 	</dict>
 </plist>
